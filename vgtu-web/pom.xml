@@ -80,6 +80,14 @@
             <version>1.0-SNAPSHOT</version>
             <type>jar</type>
         </dependency>
+        <!-- reuse src/test/java code from vgtu-domain -->
+        <dependency>
+            <groupId>com.mycompany.vgtu.domain</groupId>
+            <artifactId>vgtu-domain</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <scope>test</scope>
+            <classifier>tests</classifier>
+        </dependency>
     </dependencies>
     <build>
         <resources>

@@ -1,5 +1,6 @@
 package com.mycompany.vgtu.domain;
 
+import com.mycompany.vgtu.domain.modules.DomainTestModule;
 import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
@@ -14,7 +15,7 @@ public abstract class DaoTestBase {
     private Injector injector;
 
     public DaoTestBase() {
-        injector = Guice.createInjector(new TestBaseModule());        
+        injector = Guice.createInjector(new DomainTestModule());        
         injector.injectMembers(this);
     }
 

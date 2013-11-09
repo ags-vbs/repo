@@ -2,10 +2,12 @@ package com.mycompany.vgtu.domain.modules;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import com.google.inject.persist.PersistService;
 import com.google.inject.persist.jpa.JpaPersistModule;
 
-public class CustomJpaModule extends AbstractModule {
+@Singleton
+public class TestJpaModule extends AbstractModule {
 
     @Override
     protected void configure() {
