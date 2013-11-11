@@ -8,15 +8,16 @@ import javax.persistence.EntityManager;
 import org.junit.After;
 import org.junit.Before;
 
-public abstract class DaoTestBase {
+public abstract class DaoServiceTestBase {
 
-    @Inject
-    private EntityManager em;
     private Injector injector;
+    @Inject
+    private EntityManager em;    
 
-    public DaoTestBase() {
-        injector = Guice.createInjector(new DomainTestModule());        
-        injector.injectMembers(this);
+    public DaoServiceTestBase() {
+        injector = Guice.createInjector(
+                new DomainTestModule());
+        injector.injectMembers(this);        
     }
 
     @Before

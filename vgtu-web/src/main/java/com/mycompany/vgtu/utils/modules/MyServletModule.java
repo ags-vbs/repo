@@ -49,7 +49,7 @@ public class MyServletModule extends ServletModule {
     private Map<String, String> createWicketFilterInitParams() {
         Map<String, String> wicketFilterParams = new HashMap<String, String>();
         wicketFilterParams.put(WicketFilter.FILTER_MAPPING_PARAM, "/*");
-        // wicketFilterParams.put("applicationClassName", "com.danielwatrous.myapp.web.WicketApplication");
+         wicketFilterParams.put("applicationClassName", "com.mycompany.vgtu.utils.MyWicketApplication");
         return wicketFilterParams;
     }
 }

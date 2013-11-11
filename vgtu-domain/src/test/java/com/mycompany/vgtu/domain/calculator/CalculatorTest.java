@@ -1,14 +1,14 @@
 package com.mycompany.vgtu.domain.calculator;
 
 import com.google.inject.Inject;
-import com.mycompany.vgtu.domain.DaoTestBase;
+import com.mycompany.vgtu.domain.DaoServiceTestBase;
 import java.util.List;
 import org.junit.Test;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
 
-public class CalculatorTest extends DaoTestBase {
+public class CalculatorTest extends DaoServiceTestBase {
 
     @Inject
     private CalculatorDao calculatorDao;

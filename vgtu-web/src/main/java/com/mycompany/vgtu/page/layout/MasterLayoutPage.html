@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:wicket="http://wicket.apache.org">
+    <head>
+        <meta charset="utf-8"/>
+    </head>
+    <wicket:remove>
+        onload="" is a hack for Safari (and Opera?) browser 
+        to refresh page on Back button press
+    </wicket:remove>
+    <body onload=""> 
+        <div wicket:id="header"></div>
+        <div wicket:id="menu"></div>
+        <div wicket:id="content"></div>
+        <div wicket:id="footer"></div>
+    </body>
+</html>
