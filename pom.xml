@@ -8,7 +8,7 @@
     <name>vgtu</name>
     
     <properties>
-        <wicket.version>6.11.0</wicket.version>
+        <wicket.version>6.12.0</wicket.version>
         <jetty.version>7.6.3.v20120416</jetty.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <shiro.version>1.2.2</shiro.version>
@@ -106,7 +106,7 @@
             <dependency>
                 <groupId>org.apache.wicket</groupId>
                 <artifactId>wicket-guice</artifactId>
-                <version>6.12.0-SNAPSHOT</version>
+                <version>${wicket.version}</version>
                 <type>jar</type>
             </dependency>
             <dependency>

@@ -1,0 +1,32 @@
+<wicket:head xmlns:wicket="http://wicket.apache.org">
+    <link href="css/jquery-ui.css" type="text/css" rel="stylesheet" />
+    <link href="css/jquery.ui.theme.css" type="text/css" rel="stylesheet" />
+    <link href="css/bootstrap.css" type="text/css" rel="stylesheet" />
+    <link href="css/bootstrap-responsive.css" type="text/css" rel="stylesheet" />
+    <link href="css/fullcalendar.css" type="text/css" rel="stylesheet" />
+    <link href="css/dataview.css" type="text/css" rel="stylesheet" />
+    <link href="css/tabletree.css" type="text/css" rel="stylesheet" />
+    <link href="css/dataview.css" type="text/css" rel="stylesheet" />
+    <script src="js/bootstrap.js" type="text/javascript"></script>
+    <script src="js/fullcalendar.min.js" type="text/javascript"></script>
+    <script src="js/maxZIndex.js" type="text/javascript"></script>
+</wicket:head>
+
+<wicket:panel xmlns:wicket="http://wicket.apache.org">
+    <div id="login">
+        <div id="login-form" style="display: inline-block;">
+            <div wicket:id="login-feedback"></div>
+            <form wicket:id="login-form">
+                <div class="content">
+                    <div class="text required-field"><wicket:message key="username"/></div>
+                    <select wicket:id="username"></select>
+                    <div class="text required-field"><wicket:message key="password"/></div>
+                    <input type="password" wicket:id="password"/>
+                </div>
+                <div class="footer">
+                    <input type="submit" class="btn btn-info" wicket:id="button" wicket:message="value:login"/>
+                </div>
+            </form>
+        </div>
+    </div>
+</wicket:panel>

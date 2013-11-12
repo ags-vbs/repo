@@ -1,5 +1,6 @@
-package com.mycompany.vgtu.domain.calculator;
+package com.mycompany.vgtu.domain.user;
 
+import com.mycompany.vgtu.domain.user.internal.UserDao;
 import com.google.inject.Inject;
 import com.mycompany.vgtu.domain.DaoServiceTestBase;
 import java.util.List;
@@ -8,24 +9,24 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
 
-public class CalculatorTest extends DaoServiceTestBase {
+public class UserTest extends DaoServiceTestBase {
 
     @Inject
-    private CalculatorDao calculatorDao;
+    private UserDao calculatorDao;
 
-    public CalculatorTest() {
+    public UserTest() {
         injector().injectMembers(this);
     }
 
     @Override
     protected void extraBeforeActionsAfterTransactionsBegin() {
-        CalculatorJpa calc = new CalculatorJpa("anykas", "betkas");
+        UserJpa calc = new UserJpa("test", "testas", "testauskas");
         calculatorDao.save(calc);
     }
 
     @Test
     public void testSomeMethod() {
-        List<CalculatorJpa> calculatorJpas = calculatorDao.loadAll();
+        List<UserJpa> calculatorJpas = calculatorDao.loadAll();
         assertThat(calculatorJpas.size(), greaterThanOrEqualTo(1));
     }
 }

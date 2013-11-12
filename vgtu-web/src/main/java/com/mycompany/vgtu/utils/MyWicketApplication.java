@@ -16,7 +16,7 @@ public class MyWicketApplication extends WebApplication {
     private final Class<? extends Page> homePageClass = HomePage.class;
     private final Class<? extends Page> loginPageClass = HomePage.class;
     private final Class<? extends Page> logoutPageClass = HomePage.class;
-    private MyWicketApplicationSecurity security;
+    private final MyWicketApplicationSecurity security;
 
     @Inject
     public MyWicketApplication(Injector injector) {
