@@ -1,4 +1,4 @@
-package com.mycompany.vgtu.start;
+package com.mycompany.vgtu.home;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
