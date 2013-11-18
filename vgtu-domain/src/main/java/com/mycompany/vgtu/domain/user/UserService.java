@@ -5,7 +5,7 @@ public interface UserService {
 
     UserJpa loadById(long id);
 
-    UserJpa save(UserJpa user);
+    UserJpa saveNewUser(UserJpa user);
     
     UserJpa loadByUsername(String username);
     

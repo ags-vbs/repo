@@ -5,13 +5,13 @@ import com.mycompany.vgtu.domain.security.ShiroAuthenticationService;
 import org.apache.wicket.Component;
 import org.apache.wicket.markup.html.panel.Panel;
 
-public class UserLoginMenuPanel extends Panel {
+public class UserPanel extends Panel {
 
     private static final long serialVersionUID = 1L;
     @Inject
     private ShiroAuthenticationService authenticationService;
 
-    public UserLoginMenuPanel(String wicketId) {
+    public UserPanel(String wicketId) {
         super(wicketId);
     }
 

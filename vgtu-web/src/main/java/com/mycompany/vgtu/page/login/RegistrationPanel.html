@@ -1,0 +1,10 @@
+<wicket:panel xmlns:wicket="http://wicket.apache.org">
+    <form wicket:id="registrationForm">       
+        <div><wicket:message key="username"/></div>
+        <input type="text" wicket:id="username"/>
+        <div><wicket:message key="password"/></div>
+        <input type="password" wicket:id="password"/>                
+        <input type="submit" wicket:id="submitButton" wicket:message="value:register"/>     
+        <div wicket:id="registrationFeedback"></div>
+    </form>    
+</wicket:panel>

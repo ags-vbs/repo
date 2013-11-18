@@ -8,11 +8,10 @@ import org.junit.Test;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
-
 public class UserTest extends DaoServiceTestBase {
 
     @Inject
-    private UserDao calculatorDao;
+    private UserDao userDao;
 
     public UserTest() {
         injector().injectMembers(this);
@@ -20,13 +19,15 @@ public class UserTest extends DaoServiceTestBase {
 
     @Override
     protected void extraBeforeActionsAfterTransactionsBegin() {
-        UserJpa calc = new UserJpa("test", "testas", "testauskas");
-        calculatorDao.save(calc);
+        UserJpa user = new UserJpa();
+        user.setName("testas");
+        user.setPassword("testas");
+        userDao.save(user);
     }
 
     @Test
     public void testSomeMethod() {
-        List<UserJpa> calculatorJpas = calculatorDao.loadAll();
-        assertThat(calculatorJpas.size(), greaterThanOrEqualTo(1));
+        List<UserJpa> users = userDao.loadAll();
+        assertThat(users.size(), greaterThanOrEqualTo(1));
     }
 }
