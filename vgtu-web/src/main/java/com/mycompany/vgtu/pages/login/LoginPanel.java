@@ -1,7 +1,9 @@
-package com.mycompany.vgtu.page.login;
+package com.mycompany.vgtu.pages.login;
 
 import com.google.inject.Inject;
 import com.mycompany.vgtu.domain.security.ShiroAuthenticationService;
+import com.mycompany.vgtu.page.layout.MyFeedbackPanel;
+import com.mycompany.vgtu.pages.lectures.LecturesPage;
 import org.apache.wicket.Component;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.form.AjaxButton;
@@ -49,7 +51,7 @@ public class LoginPanel extends Panel {
     }
 
     private FeedbackPanel initLoginFeedbackPanel(String wicketId) {
-        loginFeedbackPanel = new FeedbackPanel(wicketId);
+        loginFeedbackPanel = new MyFeedbackPanel(wicketId);
         loginFeedbackPanel.setOutputMarkupId(true);
         return loginFeedbackPanel;
     }
@@ -82,6 +84,6 @@ public class LoginPanel extends Panel {
     private void login(String username, String password) {
         authenticationService.login(username, password);
         continueToOriginalDestination();
-        setResponsePage(getApplication().getHomePage());
+        setResponsePage(LecturesPage.class);
     }
 }

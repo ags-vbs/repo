@@ -36,7 +36,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserJpa loadCurrentUser() {
-        String username = (String) SecurityUtils.getSubject().getPrincipal();
-        return loadByUsername(username);
+        return (UserJpa) SecurityUtils.getSubject().getPrincipal();
     }
 }

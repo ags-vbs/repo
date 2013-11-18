@@ -4,6 +4,7 @@ import com.mycompany.vgtu.security.MyWicketApplicationSecurity;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.mycompany.vgtu.pages.home.HomePage;
+import com.mycompany.vgtu.pages.lectures.LecturesPage;
 import org.apache.wicket.Page;
 import org.apache.wicket.guice.GuiceComponentInjector;
 import org.apache.wicket.markup.html.WebPage;
@@ -41,7 +42,8 @@ public class MyWicketApplication extends WebApplication {
     }
     
       private void mountPages() {
-//        mountPage("inspection/list", InspectionListPage.class);
+        mountPage("home", HomePage.class);
+        mountPackage("lectures", LecturesPage.class);
 //        mountPage("inspection/unplanned/new", UnplannedBuildingInspectionPage.class);
 //        mountPage("inspection/new", InspectionNewPage.class);
     }

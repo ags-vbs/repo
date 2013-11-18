@@ -7,6 +7,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "users")
 public class UserJpa extends BasicEntity {
+    private static final long serialVersionUID = 1L;
 
     private String username;
     private String name;

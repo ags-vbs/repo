@@ -1,12 +1,11 @@
 package com.mycompany.vgtu.pages.home;
 
-import com.mycompany.vgtu.page.layout.MasterLayoutPage;
-import com.mycompany.vgtu.page.login.UserPanel;
+import com.mycompany.vgtu.page.layout.VgtuLayoutPage;
 
-public class HomePage extends MasterLayoutPage {
+public class HomePage extends VgtuLayoutPage {
+    private static final long serialVersionUID = 1L;
 
     public HomePage() {
-        getHeaderContainer().setComponent(new UserPanel(getHeaderContainer().getId()));
         getContentContainer().setComponent(new HomeContentPanel(getContentContainer().getId()));
     }
 }

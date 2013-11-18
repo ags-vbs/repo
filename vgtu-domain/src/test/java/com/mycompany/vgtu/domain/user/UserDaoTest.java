@@ -8,26 +8,35 @@ import org.junit.Test;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
-public class UserTest extends DaoServiceTestBase {
+public class UserDaoTest extends DaoServiceTestBase {
 
     @Inject
     private UserDao userDao;
+    private UserJpa savedUser;
+    private UserJpa loadedUser;
 
-    public UserTest() {
+    public UserDaoTest() {
         injector().injectMembers(this);
     }
 
     @Override
     protected void extraBeforeActionsAfterTransactionsBegin() {
-        UserJpa user = new UserJpa();
-        user.setName("testas");
-        user.setPassword("testas");
-        userDao.save(user);
+        savedUser = new UserJpa();
+        savedUser.setUsername("testas");
+        savedUser.setName("testas");
+        savedUser.setPassword("testas");
+        savedUser = userDao.save(savedUser);
     }
 
     @Test
     public void testSomeMethod() {
         List<UserJpa> users = userDao.loadAll();
         assertThat(users.size(), greaterThanOrEqualTo(1));
+    }
+
+    @Test
+    public void loads_user_by_username() {
+        loadedUser = userDao.loadByUsername(savedUser.getUsername());
+        assertThat(loadedUser, notNullValue());
     }
 }

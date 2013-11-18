@@ -2,6 +2,10 @@
 <html xmlns:wicket="http://wicket.apache.org">
     <head>
         <meta charset="utf-8"/>
+        <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+        <link href="style.css" rel="stylesheet">
+        <script src="https://code.jquery.com/jquery.js"></script>
+        <script src="bootstrap/js/bootstrap.min.js"></script>
     </head>
     <wicket:remove>
         onload="" is a hack for Safari (and Opera?) browser 
@@ -10,7 +14,7 @@
     <body onload=""> 
         <div wicket:id="header"></div>
         <div wicket:id="menu"></div>
-        <div wicket:id="content"></div>
+        <div wicket:id="content" id="content"></div>
         <div wicket:id="footer"></div>
     </body>
 </html>
