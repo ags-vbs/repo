@@ -3,7 +3,8 @@ package com.mycompany.vgtu.page.layout;
 import com.google.inject.Inject;
 import com.mycompany.vgtu.domain.security.ShiroAuthenticationService;
 import com.mycompany.vgtu.domain.user.UserService;
-import com.mycompany.vgtu.pages.lectures.LecturesPage;
+import com.mycompany.vgtu.pages.lectures.CreateLecturePage;
+import com.mycompany.vgtu.pages.lectures.LecturesListPage;
 import com.mycompany.vgtu.pages.login.LoginPage;
 import com.mycompany.vgtu.pages.login.RegistrationPage;
 import com.mycompany.vgtu.pages.navbar.ExtraLinkItem;
@@ -43,7 +44,8 @@ public class VgtuTopMenuPanel extends Panel {
         return new TwitterBootstrapNavBarPanel.Builder(wciketId, homePage, applicationName, activeMenuItem)
                 .withMenuItem(MenuItemEnum.LOGIN, LoginPage.class, !authenticationService.isAuthenticated())
                 .withMenuItem(MenuItemEnum.REGISTER, RegistrationPage.class, !authenticationService.isAuthenticated())
-                .withMenuItem(MenuItemEnum.LECTURES, LecturesPage.class, true)
+                .withMenuItem(MenuItemEnum.LECTURES, LecturesListPage.class, true)
+                .withMenuItem(MenuItemEnum.CREATE_LECTURE, CreateLecturePage.class, true)                             
                 //                .withMenuItemAsDropdown(MenuItemEnum.PRODUCTS, ProductOnePage.class, "Product One")
                 //                .withMenuItemAsDropdown(MenuItemEnum.PRODUCTS, ProductTwoPage.class, "Product Two")
                 //                .withMenuItemAsDropdown(MenuItemEnum.PRODUCTS, ProductTwoPage.class, "Product Three")

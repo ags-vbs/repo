@@ -7,7 +7,7 @@ import com.mycompany.vgtu.domain.lecture.VideoLectureCategoryJpa;
 
 @Singleton
 @Transactional
-class VideoLectureCategoryDaoImpl extends BasicDaoImpl<VideoLectureCategoryJpa, Long> implements VideoLectureCategoryDao {
+public class VideoLectureCategoryDaoImpl extends BasicDaoImpl<VideoLectureCategoryJpa, Long> implements VideoLectureCategoryDao {
 
     VideoLectureCategoryDaoImpl() {
         super(VideoLectureCategoryJpa.class);

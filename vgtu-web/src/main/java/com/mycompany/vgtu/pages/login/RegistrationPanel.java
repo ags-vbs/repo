@@ -4,7 +4,7 @@ import com.google.inject.Inject;
 import com.mycompany.vgtu.domain.security.ShiroAuthenticationService;
 import com.mycompany.vgtu.domain.user.UserJpa;
 import com.mycompany.vgtu.domain.user.UserService;
-import com.mycompany.vgtu.pages.lectures.LecturesPage;
+import com.mycompany.vgtu.pages.lectures.LecturesListPage;
 import org.apache.wicket.Component;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.form.AjaxButton;
@@ -88,6 +88,6 @@ public class RegistrationPanel extends Panel {
         newUser.setUsername(username);
         newUser.setPassword(password);
         userService.saveNewUser(newUser);
-        setResponsePage(LecturesPage.class);
+        setResponsePage(LecturesListPage.class);
     }
 }

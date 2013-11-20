@@ -3,8 +3,9 @@ package com.mycompany.vgtu.domain.lecture.internal;
 import com.google.inject.Inject;
 import com.mycompany.vgtu.domain.lecture.VideoLectureCategoryJpa;
 import com.mycompany.vgtu.domain.lecture.VideoLectureCategoryService;
+import java.util.List;
 
-class VideoLectureCategoryServiceImpl implements VideoLectureCategoryService {
+public class VideoLectureCategoryServiceImpl implements VideoLectureCategoryService {
 
     @Inject
     private VideoLectureCategoryDao videoLectureCategoryDao;
@@ -17,5 +18,10 @@ class VideoLectureCategoryServiceImpl implements VideoLectureCategoryService {
     @Override
     public VideoLectureCategoryJpa loadById(long id) {
         return videoLectureCategoryDao.loadById(id);
+    }
+
+    @Override
+    public List<VideoLectureCategoryJpa> loaddAllVideoLectureCategories() {
+        return videoLectureCategoryDao.loadAll();
     }
 }

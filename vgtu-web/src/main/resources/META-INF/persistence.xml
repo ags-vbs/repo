@@ -3,6 +3,8 @@
     <persistence-unit name="vgtuJpaUnit" transaction-type="RESOURCE_LOCAL">
         <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
         <class>com.mycompany.vgtu.domain.user.UserJpa</class>
+        <class>com.mycompany.vgtu.domain.lecture.VideoLectureCategoryJpa</class>
+        <class>com.mycompany.vgtu.domain.lecture.VideoLectureJpa</class>
         <exclude-unlisted-classes>true</exclude-unlisted-classes>
         <properties>
             <property name="eclipselink.logging.level" value="FINE"/>

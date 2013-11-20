@@ -3,7 +3,7 @@ package com.mycompany.vgtu.domain.lecture;
 import com.mycompany.vgtu.domain.BasicEntity;
 import com.mycompany.vgtu.domain.user.UserJpa;
 import javax.persistence.Entity;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -14,9 +14,9 @@ public class VideoLectureJpa extends BasicEntity {
     private String url;
     private String description;
     private String name;
-    @OneToOne
+    @ManyToOne
     private VideoLectureCategoryJpa category;
-    @OneToOne
+    @ManyToOne
     private UserJpa uploader;
 
     public VideoLectureJpa() {
