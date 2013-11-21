@@ -18,6 +18,7 @@ import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.Model;
 
 public class CreateLecturePanel extends Panel {
+    private static final long serialVersionUID = 1L;
 
     private final VideoLectureJpa videoLectureJpa;
     private final IModel<VideoLectureCategoryJpa> dropDownSelection;
@@ -30,6 +31,7 @@ public class CreateLecturePanel extends Panel {
         super(id);
         this.videoLectureJpa = new VideoLectureJpa();
         this.dropDownSelection = new Model<VideoLectureCategoryJpa>() {
+            private static final long serialVersionUID = 1L;
 
             @Override
             public void setObject(VideoLectureCategoryJpa object) {
@@ -54,6 +56,7 @@ public class CreateLecturePanel extends Panel {
 
     private Component getNameField(String wicketId) {
         return new TextField<String>(wicketId, new Model<String>() {
+            private static final long serialVersionUID = 1L;
 
             @Override
             public void setObject(String object) {
@@ -66,6 +69,7 @@ public class CreateLecturePanel extends Panel {
 
     private Component getDescriptionField(String wicketId) {
         return new TextArea<String>(wicketId, new Model<String>() {
+            private static final long serialVersionUID = 1L;
 
             @Override
             public void setObject(String object) {
@@ -78,6 +82,7 @@ public class CreateLecturePanel extends Panel {
 
     private Component getUrlField(String wicketId) {
         return new TextField<String>(wicketId, new Model<String>() {
+            private static final long serialVersionUID = 1L;
 
             @Override
             public void setObject(String object) {
@@ -92,6 +97,7 @@ public class CreateLecturePanel extends Panel {
         return new DropDownChoice<VideoLectureCategoryJpa>(wicketId,
                 dropDownSelection,
                 new LoadableDetachableModel<List<VideoLectureCategoryJpa>>() {
+            private static final long serialVersionUID = 1L;
                     @Override
                     protected List<VideoLectureCategoryJpa> load() {
                         return videoLectureCategoryService.loaddAllVideoLectureCategories();
@@ -102,6 +108,7 @@ public class CreateLecturePanel extends Panel {
 
     private Component getSubmitButton(String wicketId) {
         return new Button(wicketId) {
+            private static final long serialVersionUID = 1L;
 
             @Override
             public void onSubmit() {

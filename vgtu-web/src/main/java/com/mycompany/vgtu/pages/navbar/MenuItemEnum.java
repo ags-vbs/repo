@@ -6,6 +6,7 @@ public enum MenuItemEnum {
     REGISTER("Registracija"),
     LECTURES("Paskaitos"),
     CREATE_LECTURE("Pridėti"),
+    CREATE_CATEGORY("Pridėti kategoriją"),
     NONE("");
     private String label;
 

@@ -3,6 +3,7 @@ package com.mycompany.vgtu.page.layout;
 import com.google.inject.Inject;
 import com.mycompany.vgtu.domain.security.ShiroAuthenticationService;
 import com.mycompany.vgtu.domain.user.UserService;
+import com.mycompany.vgtu.pages.lectures.CreateLectureCategoryPage;
 import com.mycompany.vgtu.pages.lectures.CreateLecturePage;
 import com.mycompany.vgtu.pages.lectures.LecturesListPage;
 import com.mycompany.vgtu.pages.login.LoginPage;
@@ -45,7 +46,8 @@ public class VgtuTopMenuPanel extends Panel {
                 .withMenuItem(MenuItemEnum.LOGIN, LoginPage.class, !authenticationService.isAuthenticated())
                 .withMenuItem(MenuItemEnum.REGISTER, RegistrationPage.class, !authenticationService.isAuthenticated())
                 .withMenuItem(MenuItemEnum.LECTURES, LecturesListPage.class, true)
-                .withMenuItem(MenuItemEnum.CREATE_LECTURE, CreateLecturePage.class, true)                             
+                .withMenuItem(MenuItemEnum.CREATE_LECTURE, CreateLecturePage.class, true)
+                .withMenuItem(MenuItemEnum.CREATE_CATEGORY, CreateLectureCategoryPage.class, true)
                 //                .withMenuItemAsDropdown(MenuItemEnum.PRODUCTS, ProductOnePage.class, "Product One")
                 //                .withMenuItemAsDropdown(MenuItemEnum.PRODUCTS, ProductTwoPage.class, "Product Two")
                 //                .withMenuItemAsDropdown(MenuItemEnum.PRODUCTS, ProductTwoPage.class, "Product Three")
@@ -55,11 +57,9 @@ public class VgtuTopMenuPanel extends Panel {
                 .witExtraBootStrapImageRight("userIcon", "glyphicon glyphicon-user", authenticationService.isAuthenticated(), 2)
                 .withExtraTextItemRight(getLoggedUserText(), authenticationService.isAuthenticated(), 20)
                 .witExtraBootStrapImageRight("logOutIcon", "glyphicon glyphicon-log-out", authenticationService.isAuthenticated(), 2)
-                .withExtraLinkItemRight(getLogoutLink(), authenticationService.isAuthenticated(), 0)                
+                .withExtraLinkItemRight(getLogoutLink(), authenticationService.isAuthenticated(), 0)
                 .build();
     }
-    
-    
 
     private ExtraLinkItem getLogoutLink() {
         return new ExtraLinkItem("userInfo") {
