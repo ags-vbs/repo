@@ -2,14 +2,18 @@ package com.mycompany.vgtu.domain.modules;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
-import com.mycompany.vgtu.domain.lecture.VideoLectureCategoryService;
-import com.mycompany.vgtu.domain.lecture.VideoLectureService;
-import com.mycompany.vgtu.domain.lecture.internal.VideoLectureCategoryDao;
-import com.mycompany.vgtu.domain.lecture.internal.VideoLectureCategoryDaoImpl;
-import com.mycompany.vgtu.domain.lecture.internal.VideoLectureCategoryServiceImpl;
-import com.mycompany.vgtu.domain.lecture.internal.VideoLectureDao;
-import com.mycompany.vgtu.domain.lecture.internal.VideoLectureDaoImpl;
-import com.mycompany.vgtu.domain.lecture.internal.VideoLectureServiceImpl;
+import com.mycompany.vgtu.domain.lecture.CategoryService;
+import com.mycompany.vgtu.domain.lecture.LectureService;
+import com.mycompany.vgtu.domain.lecture.VoteService;
+import com.mycompany.vgtu.domain.lecture.internal.CategoryDao;
+import com.mycompany.vgtu.domain.lecture.internal.CategoryDaoImpl;
+import com.mycompany.vgtu.domain.lecture.internal.CategoryServiceImpl;
+import com.mycompany.vgtu.domain.lecture.internal.LectureDao;
+import com.mycompany.vgtu.domain.lecture.internal.LectureDaoImpl;
+import com.mycompany.vgtu.domain.lecture.internal.LectureServiceImpl;
+import com.mycompany.vgtu.domain.lecture.internal.VoteDao;
+import com.mycompany.vgtu.domain.lecture.internal.VoteDaoImpl;
+import com.mycompany.vgtu.domain.lecture.internal.VoteServiceImpl;
 import com.mycompany.vgtu.domain.security.PasswordService;
 import com.mycompany.vgtu.domain.user.internal.UserDao;
 import com.mycompany.vgtu.domain.user.internal.UserDaoImpl;
@@ -45,13 +49,15 @@ public class DomainModule extends AbstractModule {
 
     private void bindDao() {
         bind(UserDao.class).to(UserDaoImpl.class);
-        bind(VideoLectureCategoryDao.class).to(VideoLectureCategoryDaoImpl.class);
-        bind(VideoLectureDao.class).to(VideoLectureDaoImpl.class);
+        bind(CategoryDao.class).to(CategoryDaoImpl.class);
+        bind(LectureDao.class).to(LectureDaoImpl.class);
+        bind(VoteDao.class).to(VoteDaoImpl.class);
     }
 
     private void bindService() {
         bind(UserService.class).to(UserServiceImpl.class);
-        bind(VideoLectureService.class).to(VideoLectureServiceImpl.class);
-        bind(VideoLectureCategoryService.class).to(VideoLectureCategoryServiceImpl.class);
+        bind(LectureService.class).to(LectureServiceImpl.class);
+        bind(CategoryService.class).to(CategoryServiceImpl.class);
+        bind(VoteService.class).to(VoteServiceImpl.class);
     }
 }

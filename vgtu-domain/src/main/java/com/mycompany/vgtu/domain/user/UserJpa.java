@@ -1,19 +1,24 @@
 package com.mycompany.vgtu.domain.user;
 
 import com.mycompany.vgtu.domain.BasicEntity;
+import java.util.EnumSet;
+import java.util.Set;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "users")
 public class UserJpa extends BasicEntity {
-    private static final long serialVersionUID = 1L;
 
+    private static final long serialVersionUID = 1L;
     private String username;
     private String name;
     private String surname;
     private String salt;
     private String password;
+    @ElementCollection
+    private Set<String> permissions;
 
     public UserJpa() {
     }
@@ -68,4 +73,13 @@ public class UserJpa extends BasicEntity {
         this.password = password;
     }
 
+    public Set<String> getPermissions() {
+        return permissions;
+    }
+
+    public void setPermissions(Set<String> permissions) {
+        this.permissions = permissions;
+    }
+    
+    
 }

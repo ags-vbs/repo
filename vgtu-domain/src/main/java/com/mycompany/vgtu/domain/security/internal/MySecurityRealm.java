@@ -55,16 +55,20 @@ public class MySecurityRealm extends AuthorizingRealm implements CredentialsMatc
         final boolean successfulAuthentication = authenticator.doCredentialsMatch(token, info);
         return successfulAuthentication;
     }
-    
-     @Override
+
+    @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
-//        User user = userFrom(principals);
-//        log.info("authorizing: " + user);
-//        return ShiroUtils.authorizationInfoFrom(userService.getShiroPermissionsForAuthorizationByUserId(user.getId()));
-         return null;
+        //TODO: improve permissions. Make annotation with enums.
+        UserJpa user = userFrom(principals);
+        log.info("authorizing: " + user);
+        return ShiroUtils.authorizationInfoFrom(user.getPermissions());
     }
 
     private String userNameFrom(AuthenticationToken token) {
         return (String) token.getPrincipal();
+    }
+
+    private UserJpa userFrom(PrincipalCollection principals) {
+        return (UserJpa) principals.getPrimaryPrincipal();
     }
 }

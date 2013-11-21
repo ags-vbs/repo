@@ -6,15 +6,15 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "categories")
-public class VideoLectureCategoryJpa extends BasicEntity {
+public class CategoryJpa extends BasicEntity {
 
     private static final long serialVersionUID = 1L;
     private String name;
 
-    public VideoLectureCategoryJpa() {
+    public CategoryJpa() {
     }
 
-    public VideoLectureCategoryJpa(String name) {
+    public CategoryJpa(String name) {
         this.name = name;
     }
 

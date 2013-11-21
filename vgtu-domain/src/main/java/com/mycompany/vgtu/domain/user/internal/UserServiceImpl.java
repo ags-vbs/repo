@@ -4,6 +4,7 @@ import com.mycompany.vgtu.domain.user.UserService;
 import com.google.inject.Inject;
 import com.mycompany.vgtu.domain.security.PasswordService;
 import com.mycompany.vgtu.domain.user.UserJpa;
+import com.mycompany.vgtu.domain.user.UserPermissions;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.util.ByteSource;
 
@@ -21,6 +22,7 @@ public class UserServiceImpl implements UserService {
         String saltToDb = passwordService.saltoToString(salt);
         user.setPassword(hashedPass);
         user.setSalt(saltToDb);
+        user.setPermissions(UserPermissions.getAllPermissions());
         return userDao.save(user);
     }
 

@@ -4,6 +4,7 @@ import com.google.inject.Inject;
 import com.mycompany.vgtu.domain.security.ShiroAuthenticationService;
 import com.mycompany.vgtu.page.layout.MyFeedbackPanel;
 import com.mycompany.vgtu.pages.lectures.LecturesListPage;
+import org.apache.shiro.authc.AuthenticationException;
 import org.apache.wicket.Component;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.form.AjaxButton;
@@ -82,8 +83,15 @@ public class LoginPanel extends Panel {
     }
 
     private void login(String username, String password) {
-        authenticationService.login(username, password);
-        continueToOriginalDestination();
-        setResponsePage(LecturesListPage.class);
+        try {
+            authenticationService.login(username, password);
+        } catch (AuthenticationException ex) {
+            loginFeedbackPanel.error("Neteisingas vartotojo vardas arba slap. Test message");
+        }
+        //FIXME: do not do validation like this... Maybe... Somewhhere else do it or somehow different.
+        if (!loginFeedbackPanel.anyErrorMessage()) {
+            continueToOriginalDestination();
+            setResponsePage(LecturesListPage.class);
+        }
     }
 }

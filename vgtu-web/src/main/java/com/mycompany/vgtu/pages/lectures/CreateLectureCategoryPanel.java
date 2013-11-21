@@ -1,8 +1,8 @@
 package com.mycompany.vgtu.pages.lectures;
 
 import com.google.inject.Inject;
-import com.mycompany.vgtu.domain.lecture.VideoLectureCategoryJpa;
-import com.mycompany.vgtu.domain.lecture.VideoLectureCategoryService;
+import com.mycompany.vgtu.domain.lecture.CategoryJpa;
+import com.mycompany.vgtu.domain.lecture.CategoryService;
 import com.mycompany.vgtu.page.table.ActionPanel;
 import com.mycompany.vgtu.page.table.MyDataTablePanel;
 import java.util.List;
@@ -23,13 +23,13 @@ import org.apache.wicket.model.Model;
 public class CreateLectureCategoryPanel extends Panel {
 
     private static final long serialVersionUID = 1L;
-    private final VideoLectureCategoryJpa videoLectureCategoryJpa;
+    private final CategoryJpa videoLectureCategoryJpa;
     @Inject
-    private VideoLectureCategoryService videoLectureCategoryService;
+    private CategoryService videoLectureCategoryService;
 
     public CreateLectureCategoryPanel(String id) {
         super(id);
-        this.videoLectureCategoryJpa = new VideoLectureCategoryJpa();
+        this.videoLectureCategoryJpa = new CategoryJpa();
     }
 
     @Override
@@ -67,29 +67,29 @@ public class CreateLectureCategoryPanel extends Panel {
     }
 
     private Component getCategoriesTable(String wicketId) {
-        return new MyDataTablePanel<VideoLectureCategoryJpa, String>(wicketId, "name", SortOrder.ASCENDING) {
+        return new MyDataTablePanel<CategoryJpa, String>(wicketId, "name", SortOrder.ASCENDING) {
             private static final long serialVersionUID = 1L;
 
             @Override
-            protected void setupTableColumns(List<IColumn<VideoLectureCategoryJpa, String>> columns) {
-                columns.add(new PropertyColumn<VideoLectureCategoryJpa, String>(new Model<String>("ID"), "id"));
-                columns.add(new PropertyColumn<VideoLectureCategoryJpa, String>(new Model<String>("CATEGORY"), "name", "name"));
+            protected void setupTableColumns(List<IColumn<CategoryJpa, String>> columns) {
+                columns.add(new PropertyColumn<CategoryJpa, String>(new Model<String>("ID"), "id"));
+                columns.add(new PropertyColumn<CategoryJpa, String>(new Model<String>("CATEGORY"), "name", "name"));
             }
 
             @Override
-            protected void setupActions(Item<ICellPopulator<VideoLectureCategoryJpa>> cellItem, String componentId, IModel<VideoLectureCategoryJpa> model) {
-                cellItem.add(new ActionPanel<VideoLectureCategoryJpa>(componentId, model, "deleteAct") {
+            protected void setupActions(Item<ICellPopulator<CategoryJpa>> cellItem, String componentId, IModel<CategoryJpa> model) {
+                cellItem.add(new ActionPanel<CategoryJpa>(componentId, model, "deleteAct") {
                     private static final long serialVersionUID = 1L;
 
                     @Override
-                    protected void onActionClick(VideoLectureCategoryJpa object) {
+                    protected void onActionClick(CategoryJpa object) {
 // do nothin now;
                     }
                 });
             }
 
             @Override
-            protected List<VideoLectureCategoryJpa> getSublistOfTotalItemsToView(long first, long count, SortParam<String> sortParam) {
+            protected List<CategoryJpa> getSublistOfTotalItemsToView(long first, long count, SortParam<String> sortParam) {
                 //FIX ME. Do not load all. Create new dao method to load just part order.
                 return videoLectureCategoryService.loaddAllVideoLectureCategories();
             }

@@ -1,10 +1,10 @@
 package com.mycompany.vgtu.pages.lectures;
 
 import com.google.inject.Inject;
-import com.mycompany.vgtu.domain.lecture.VideoLectureCategoryJpa;
-import com.mycompany.vgtu.domain.lecture.VideoLectureCategoryService;
-import com.mycompany.vgtu.domain.lecture.VideoLectureJpa;
-import com.mycompany.vgtu.domain.lecture.VideoLectureService;
+import com.mycompany.vgtu.domain.lecture.CategoryJpa;
+import com.mycompany.vgtu.domain.lecture.CategoryService;
+import com.mycompany.vgtu.domain.lecture.LectureJpa;
+import com.mycompany.vgtu.domain.lecture.LectureService;
 import java.util.List;
 import org.apache.wicket.Component;
 import org.apache.wicket.markup.html.form.Button;
@@ -21,21 +21,21 @@ import org.apache.wicket.model.Model;
 public class CreateLecturePanel extends Panel {
 
     private static final long serialVersionUID = 1L;
-    private final VideoLectureJpa videoLectureJpa;
-    private final IModel<VideoLectureCategoryJpa> dropDownSelection;
+    private final LectureJpa videoLectureJpa;
+    private final IModel<CategoryJpa> dropDownSelection;
     @Inject
-    private VideoLectureCategoryService videoLectureCategoryService;
+    private CategoryService videoLectureCategoryService;
     @Inject
-    private VideoLectureService videoLectureService;
+    private LectureService videoLectureService;
 
     public CreateLecturePanel(String id) {
         super(id);
-        this.videoLectureJpa = new VideoLectureJpa();
-        this.dropDownSelection = new Model<VideoLectureCategoryJpa>() {
+        this.videoLectureJpa = new LectureJpa();
+        this.dropDownSelection = new Model<CategoryJpa>() {
             private static final long serialVersionUID = 1L;
 
             @Override
-            public void setObject(VideoLectureCategoryJpa object) {
+            public void setObject(CategoryJpa object) {
                 super.setObject(object);
                 videoLectureJpa.setCategory(object);
             }
@@ -91,27 +91,27 @@ public class CreateLecturePanel extends Panel {
     }
 
     private Component getLectureCategoryDropDown(String wicketId) {
-        IChoiceRenderer<VideoLectureCategoryJpa> renderer = new IChoiceRenderer<VideoLectureCategoryJpa>() {
+        IChoiceRenderer<CategoryJpa> renderer = new IChoiceRenderer<CategoryJpa>() {
             private static final long serialVersionUID = 1L;
 
             @Override
-            public Object getDisplayValue(VideoLectureCategoryJpa object) {
+            public Object getDisplayValue(CategoryJpa object) {
                 return object.getName();
             }
 
             @Override
-            public String getIdValue(VideoLectureCategoryJpa object, int index) {
+            public String getIdValue(CategoryJpa object, int index) {
                 return object.getId().toString();
             }
         };
 
-        return new DropDownChoice<VideoLectureCategoryJpa>(wicketId,
+        return new DropDownChoice<CategoryJpa>(wicketId,
                 dropDownSelection,
-                new LoadableDetachableModel<List<VideoLectureCategoryJpa>>() {
+                new LoadableDetachableModel<List<CategoryJpa>>() {
             private static final long serialVersionUID = 1L;
 
             @Override
-            protected List<VideoLectureCategoryJpa> load() {
+            protected List<CategoryJpa> load() {
                 return videoLectureCategoryService.loaddAllVideoLectureCategories();
             }
         }, renderer);

@@ -8,21 +8,21 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "lectures")
-public class VideoLectureJpa extends BasicEntity {
+public class LectureJpa extends BasicEntity {
 
     private static final long serialVersionUID = 1L;
     private String url;
     private String description;
     private String name;
     @ManyToOne
-    private VideoLectureCategoryJpa category;
+    private CategoryJpa category;
     @ManyToOne
     private UserJpa uploader;
 
-    public VideoLectureJpa() {
+    public LectureJpa() {
     }
 
-    public VideoLectureJpa(String url, String description, String name, UserJpa uploader) {
+    public LectureJpa(String url, String description, String name, UserJpa uploader) {
         this.url = url;
         this.description = description;
         this.name = name;
@@ -61,11 +61,11 @@ public class VideoLectureJpa extends BasicEntity {
         this.uploader = uploader;
     }
 
-    public VideoLectureCategoryJpa getCategory() {
+    public CategoryJpa getCategory() {
         return category;
     }
 
-    public void setCategory(VideoLectureCategoryJpa category) {
+    public void setCategory(CategoryJpa category) {
         this.category = category;
     }
 }

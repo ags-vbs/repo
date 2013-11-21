@@ -3,26 +3,26 @@ package com.mycompany.vgtu.domain.lecture.internal;
 import com.google.inject.Singleton;
 import com.google.inject.persist.Transactional;
 import com.mycompany.vgtu.domain.BasicDaoImpl;
-import com.mycompany.vgtu.domain.lecture.VideoLectureJpa;
+import com.mycompany.vgtu.domain.lecture.LectureJpa;
 import java.util.List;
 import javax.persistence.TypedQuery;
 
 @Singleton
 @Transactional
-public class VideoLectureDaoImpl extends BasicDaoImpl<VideoLectureJpa, Long> implements VideoLectureDao {
+public class LectureDaoImpl extends BasicDaoImpl<LectureJpa, Long> implements LectureDao {
 
-    VideoLectureDaoImpl() {
-        super(VideoLectureJpa.class);
+    LectureDaoImpl() {
+        super(LectureJpa.class);
     }
 
     @Override
-    public List<VideoLectureJpa> loadAllVideoLecturesByCategory(Long categoryId) {
+    public List<LectureJpa> loadAllVideoLecturesByCategory(Long categoryId) {
         StringBuilder queryBuilder = new StringBuilder();
         queryBuilder.append("select l from ");
-        queryBuilder.append(VideoLectureJpa.class.getSimpleName());
+        queryBuilder.append(LectureJpa.class.getSimpleName());
         queryBuilder.append(" l ");
         queryBuilder.append("where l.category.id = :categoryId");
-        TypedQuery<VideoLectureJpa> query = em().createQuery(queryBuilder.toString(), VideoLectureJpa.class);
+        TypedQuery<LectureJpa> query = em().createQuery(queryBuilder.toString(), LectureJpa.class);
         query.setParameter("categoryId", categoryId);
         return query.getResultList();
     }
