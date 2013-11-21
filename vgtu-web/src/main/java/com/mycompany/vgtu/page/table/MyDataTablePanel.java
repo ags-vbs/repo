@@ -8,6 +8,7 @@ import org.apache.wicket.extensions.markup.html.repeater.data.grid.ICellPopulato
 import org.apache.wicket.extensions.markup.html.repeater.data.sort.SortOrder;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.AbstractColumn;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.IColumn;
+import org.apache.wicket.extensions.markup.html.repeater.util.SortParam;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.model.IModel;
@@ -17,7 +18,7 @@ public abstract class MyDataTablePanel<T extends Serializable, S extends Object>
 
     private static final long serialVersionUID = 1L;
 
-    public MyDataTablePanel(String wicketId, List<T> dataList, S defaultSortColumn, SortOrder defaultSortOrder) {
+    public MyDataTablePanel(String wicketId, S defaultSortColumn, SortOrder defaultSortOrder) {
         super(wicketId);
         List<IColumn<T, S>> columns = new ArrayList<IColumn<T, S>>();
 
@@ -27,21 +28,29 @@ public abstract class MyDataTablePanel<T extends Serializable, S extends Object>
             @Override
             public void populateItem(Item<ICellPopulator<T>> cellItem, String componentId, IModel<T> model) {
                 setupActions(cellItem, componentId, model);
-//                cellItem.add(new ActionPanel(componentId, model));
             }
         });
         setupTableColumns(columns);
-        add(new AjaxFallbackDefaultDataTable<T, S>("table", columns, new MySortableDataProvider(dataList, defaultSortColumn, defaultSortOrder), 15));
+        add(new AjaxFallbackDefaultDataTable<T, S>("table", columns, new MySortableDataProvider<T, S>(defaultSortColumn, defaultSortOrder) {
+            private static final long serialVersionUID = 1L;
+
+            @Override
+            protected List<T> getSublistOfTotalItemsToView(long first, long count, SortParam<S> sortParam) {
+                return MyDataTablePanel.this.getSublistOfTotalItemsToView(first, count, sortParam);
+            }
+
+            @Override
+            protected long getTotalItemsCount() {
+                return MyDataTablePanel.this.getTotalItemsCount();
+            }
+        }, 15));
     }
 
     protected abstract void setupTableColumns(List<IColumn<T, S>> columns);
 
     protected abstract void setupActions(Item<ICellPopulator<T>> cellItem, String componentId, IModel<T> model);
-//            columns.add(new PropertyColumn<T, S>(new Model<String>("ID"), "id"));
-//        columns.add(new PropertyColumn<T, S>(new Model<String>("First Name"), "firstName",
-//                "firstName"));
-//        columns.add(new PropertyColumn<T, S>(new Model<String>("Last Name"), "lastName",
-//                "lastName"));
-//        columns.add(new PropertyColumn<VideoLectureJpa, String>(new Model<String>("Home Phone"), "homePhone"));
-//        columns.add(new PropertyColumn<VideoLectureJpa, String>(new Model<String>("Cell Phone"), "cellPhone"));
+
+    protected abstract List<T> getSublistOfTotalItemsToView(long first, long count, SortParam<S> sortParam);
+
+    protected abstract long getTotalItemsCount();
 }

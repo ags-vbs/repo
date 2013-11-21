@@ -5,16 +5,17 @@ import com.mycompany.vgtu.domain.lecture.VideoLectureCategoryJpa;
 import com.mycompany.vgtu.domain.lecture.VideoLectureCategoryService;
 import com.mycompany.vgtu.domain.lecture.VideoLectureJpa;
 import com.mycompany.vgtu.domain.lecture.VideoLectureService;
-import java.util.Collections;
 import java.util.List;
 import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.Component;
 import org.apache.wicket.ajax.AjaxRequestTarget;
-import org.apache.wicket.ajax.markup.html.AjaxLink;
+import org.apache.wicket.ajax.markup.html.form.AjaxButton;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.DropDownChoice;
+import org.apache.wicket.markup.html.form.Form;
+import org.apache.wicket.markup.html.form.IChoiceRenderer;
 import org.apache.wicket.markup.html.link.InlineFrame;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
@@ -30,41 +31,83 @@ public class LecturesListPanel extends Panel {
     private VideoLectureService videoLectureService;
     @Inject
     private VideoLectureCategoryService videoLectureCategoryService;
-    private IModel<VideoLectureCategoryJpa> dropDownSelection;
     private WebMarkupContainer lecturesContainer;
-    private List<VideoLectureJpa> listOfLectures = Collections.EMPTY_LIST;
+    private IModel<List<VideoLectureJpa>> listOfLecturesModel;
+    private VideoLectureCategoryJpa selectedCategory;
 
     public LecturesListPanel(String wicketId) {
         super(wicketId);
-        this.dropDownSelection = new Model<VideoLectureCategoryJpa>();
+        this.listOfLecturesModel = new LoadableDetachableModel<List<VideoLectureJpa>>() {
+            private static final long serialVersionUID = 1L;
+
+            @Override
+            protected List<VideoLectureJpa> load() {
+                if (selectedCategory == null) {
+                    return videoLectureService.loadAllVideoLectures();
+                } else {
+                    return videoLectureService.loadAllVideoLecturesByCategory(selectedCategory.getId());
+                }
+            }
+        };
+//        this.listOfLectures = videoLectureService.loadAllVideoLectures();
     }
 
     @Override
     protected void onInitialize() {
         super.onInitialize();
-        add(getLectureCategoryDropDown("category"));
-        add(getAjaxLinkToLoadLectures("linkToLoad"));
-        add(initListViewContainer("lecturesContainer", "lecturesRepeater"));
+        Form form = new Form("form");
+        form.add(getLectureCategoryDropDown("category"));
+        form.add(getAjaxSubmitButtonToLoadLectures("submitSearch"));
+        form.add(initListViewContainer("lecturesContainer", "lecturesRepeater"));
+        add(form);
     }
 
     private Component getLectureCategoryDropDown(String wicketId) {
-        return new DropDownChoice<VideoLectureCategoryJpa>(wicketId,
-                dropDownSelection,
-                new LoadableDetachableModel<List<VideoLectureCategoryJpa>>() {
-                    @Override
-                    protected List<VideoLectureCategoryJpa> load() {
-                        return videoLectureCategoryService.loaddAllVideoLectureCategories();
-                    }
-                }
-        );
-    }
-
-    private Component getAjaxLinkToLoadLectures(String wicketId) {
-        return new AjaxLink(wicketId) {
+        IChoiceRenderer<VideoLectureCategoryJpa> renderer = new IChoiceRenderer<VideoLectureCategoryJpa>() {
+            private static final long serialVersionUID = 1L;
 
             @Override
-            public void onClick(AjaxRequestTarget target) {
-                listOfLectures = videoLectureService.loaddAllVideoLectures();
+            public Object getDisplayValue(VideoLectureCategoryJpa object) {
+                return object.getName();
+            }
+
+            @Override
+            public String getIdValue(VideoLectureCategoryJpa object, int index) {
+                return object.getId().toString();
+            }
+        };
+        Model<VideoLectureCategoryJpa> model = new Model<VideoLectureCategoryJpa>() {
+            private static final long serialVersionUID = 1L;
+
+            @Override
+            public VideoLectureCategoryJpa getObject() {
+                return selectedCategory;
+            }
+
+            @Override
+            public void setObject(VideoLectureCategoryJpa object) {
+                super.setObject(object);
+                selectedCategory = object;
+            }
+        };
+        return new DropDownChoice<VideoLectureCategoryJpa>(wicketId, model, new LoadableDetachableModel<List<VideoLectureCategoryJpa>>() {
+            private static final long serialVersionUID = 1L;
+
+            @Override
+            protected List<VideoLectureCategoryJpa> load() {
+                return videoLectureCategoryService.loaddAllVideoLectureCategories();
+            }
+        }, renderer);
+    }
+
+    private Component getAjaxSubmitButtonToLoadLectures(String wicketId) {
+
+        return new AjaxButton(wicketId) {
+            private static final long serialVersionUID = 1L;
+
+            @Override
+            protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
+                super.onSubmit(target, form);
                 target.add(lecturesContainer);
             }
         };
@@ -72,7 +115,7 @@ public class LecturesListPanel extends Panel {
 
     private Component initListViewContainer(String wicketId, String repeaterId) {
         lecturesContainer = new WebMarkupContainer(wicketId);
-        ListView<VideoLectureJpa> listView = new ListView<VideoLectureJpa>(repeaterId, listOfLectures) {
+        ListView<VideoLectureJpa> listView = new ListView<VideoLectureJpa>(repeaterId, listOfLecturesModel) {
             private static final long serialVersionUID = 1L;
 
             @Override

@@ -10,6 +10,7 @@ import org.apache.wicket.Component;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
+import org.apache.wicket.markup.html.form.IChoiceRenderer;
 import org.apache.wicket.markup.html.form.TextArea;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.panel.Panel;
@@ -18,8 +19,8 @@ import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.Model;
 
 public class CreateLecturePanel extends Panel {
-    private static final long serialVersionUID = 1L;
 
+    private static final long serialVersionUID = 1L;
     private final VideoLectureJpa videoLectureJpa;
     private final IModel<VideoLectureCategoryJpa> dropDownSelection;
     @Inject
@@ -38,7 +39,6 @@ public class CreateLecturePanel extends Panel {
                 super.setObject(object);
                 videoLectureJpa.setCategory(object);
             }
-
         };
     }
 
@@ -63,7 +63,6 @@ public class CreateLecturePanel extends Panel {
                 super.setObject(object);
                 videoLectureJpa.setName(object);
             }
-
         });
     }
 
@@ -76,7 +75,6 @@ public class CreateLecturePanel extends Panel {
                 super.setObject(object);
                 videoLectureJpa.setDescription(object);
             }
-
         });
     }
 
@@ -89,21 +87,34 @@ public class CreateLecturePanel extends Panel {
                 super.setObject(object);
                 videoLectureJpa.setUrl(object);
             }
-
         });
     }
 
     private Component getLectureCategoryDropDown(String wicketId) {
+        IChoiceRenderer<VideoLectureCategoryJpa> renderer = new IChoiceRenderer<VideoLectureCategoryJpa>() {
+            private static final long serialVersionUID = 1L;
+
+            @Override
+            public Object getDisplayValue(VideoLectureCategoryJpa object) {
+                return object.getName();
+            }
+
+            @Override
+            public String getIdValue(VideoLectureCategoryJpa object, int index) {
+                return object.getId().toString();
+            }
+        };
+
         return new DropDownChoice<VideoLectureCategoryJpa>(wicketId,
                 dropDownSelection,
                 new LoadableDetachableModel<List<VideoLectureCategoryJpa>>() {
             private static final long serialVersionUID = 1L;
-                    @Override
-                    protected List<VideoLectureCategoryJpa> load() {
-                        return videoLectureCategoryService.loaddAllVideoLectureCategories();
-                    }
-                }
-        );
+
+            @Override
+            protected List<VideoLectureCategoryJpa> load() {
+                return videoLectureCategoryService.loaddAllVideoLectureCategories();
+            }
+        }, renderer);
     }
 
     private Component getSubmitButton(String wicketId) {
@@ -115,8 +126,6 @@ public class CreateLecturePanel extends Panel {
                 super.onSubmit();
                 videoLectureService.saveNewVideoLecture(videoLectureJpa);
             }
-
         };
     }
-
 }

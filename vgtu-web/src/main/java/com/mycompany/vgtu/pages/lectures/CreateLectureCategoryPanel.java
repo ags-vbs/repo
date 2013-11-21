@@ -11,6 +11,7 @@ import org.apache.wicket.extensions.markup.html.repeater.data.grid.ICellPopulato
 import org.apache.wicket.extensions.markup.html.repeater.data.sort.SortOrder;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.IColumn;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.PropertyColumn;
+import org.apache.wicket.extensions.markup.html.repeater.util.SortParam;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextField;
@@ -66,11 +67,7 @@ public class CreateLectureCategoryPanel extends Panel {
     }
 
     private Component getCategoriesTable(String wicketId) {
-        return new MyDataTablePanel<VideoLectureCategoryJpa, String>(
-                wicketId,
-                videoLectureCategoryService.loaddAllVideoLectureCategories(),
-                "name",
-                SortOrder.ASCENDING) {
+        return new MyDataTablePanel<VideoLectureCategoryJpa, String>(wicketId, "name", SortOrder.ASCENDING) {
             private static final long serialVersionUID = 1L;
 
             @Override
@@ -89,6 +86,18 @@ public class CreateLectureCategoryPanel extends Panel {
 // do nothin now;
                     }
                 });
+            }
+
+            @Override
+            protected List<VideoLectureCategoryJpa> getSublistOfTotalItemsToView(long first, long count, SortParam<String> sortParam) {
+                //FIX ME. Do not load all. Create new dao method to load just part order.
+                return videoLectureCategoryService.loaddAllVideoLectureCategories();
+            }
+
+            @Override
+            protected long getTotalItemsCount() {
+                //FIX ME. Very bad. Create new method to get count.
+                return videoLectureCategoryService.loaddAllVideoLectureCategories().size();
             }
         };
     }

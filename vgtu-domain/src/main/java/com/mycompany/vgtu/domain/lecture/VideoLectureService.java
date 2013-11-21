@@ -8,5 +8,7 @@ public interface VideoLectureService {
 
     VideoLectureJpa saveNewVideoLecture(VideoLectureJpa videoLecture);
 
-    List<VideoLectureJpa> loaddAllVideoLectures();
+    List<VideoLectureJpa> loadAllVideoLectures();
+    
+    List<VideoLectureJpa> loadAllVideoLecturesByCategory(Long categoryId);
 }
