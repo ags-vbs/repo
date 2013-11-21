@@ -4,28 +4,28 @@
             <option>Some Person</option>
         </select>
         <input type="submit" wicket:id="submitSearch" value="Search" />
-        <span wicket:id="lecturesContainer">
-            <span wicket:id="lecturesRepeater">
-                <div class="panel panel-primary">
-                    <div class="panel-heading">
-                        <h3 wicket:id = "lectureTitle" class="panel-title">Title</h3>
-                    </div>
+    </form>
+    <span wicket:id="lecturesContainer">
+        <span wicket:id="lecturesRepeater">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 wicket:id = "lectureTitle" class="panel-title">Title</h3>
+                </div>
 
-                    <div class="panel-body">
-                        <!--This section for media-->
+                <div class="panel-body">
+                    <!--This section for media-->
 
-                        <div class="media">
-                            <a class="pull-left" href="#"><iframe wicket:id = "lectureVideoFrame"></iframe></a>
+                    <div class="media">
+                        <a class="pull-left" href="#"><iframe wicket:id = "lectureVideoFrame"></iframe></a>
 
-                            <div class="main-body">
-                                <!-- this section we will add information about the video-->
+                        <div class="main-body">
+                            <!-- this section we will add information about the video-->
 
-                                <p wicket:id ="lectureDescription"></p>
-                            </div>
+                            <p wicket:id ="lectureDescription"></p>
                         </div>
                     </div>
                 </div>
-            </span>
+            </div>
         </span>
-    </form>>
+    </span>
 </wicket:panel>

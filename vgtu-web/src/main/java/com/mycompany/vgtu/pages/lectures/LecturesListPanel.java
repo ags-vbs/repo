@@ -49,7 +49,6 @@ public class LecturesListPanel extends Panel {
                 }
             }
         };
-//        this.listOfLectures = videoLectureService.loadAllVideoLectures();
     }
 
     @Override
@@ -58,8 +57,8 @@ public class LecturesListPanel extends Panel {
         Form form = new Form("form");
         form.add(getLectureCategoryDropDown("category"));
         form.add(getAjaxSubmitButtonToLoadLectures("submitSearch"));
-        form.add(initListViewContainer("lecturesContainer", "lecturesRepeater"));
         add(form);
+        add(initListViewContainer("lecturesContainer", "lecturesRepeater"));
     }
 
     private Component getLectureCategoryDropDown(String wicketId) {
