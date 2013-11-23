@@ -64,7 +64,9 @@ public class TwitterBootstrapNavBarPanel extends Panel {
         private Multimap<MenuItemEnum, BookmarkablePageLink<?>> linksMap = LinkedHashMultimap.create();
         private List<Panel> extraSpecialPanelItems = new ArrayList<Panel>();
 
-        public Builder(String id, Class<? extends Page> homePage, String applicationName,
+        public Builder(String id,
+                Class<? extends Page> homePage,
+                String applicationName,
                 MenuItemEnum activeMenuItem) {
             this.id = id;
             this.homePage = homePage;

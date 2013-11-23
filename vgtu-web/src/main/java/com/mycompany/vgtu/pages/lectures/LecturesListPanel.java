@@ -1,5 +1,6 @@
 package com.mycompany.vgtu.pages.lectures;
 
+import com.google.common.base.Optional;
 import com.google.inject.Inject;
 import com.mycompany.vgtu.domain.lecture.CategoryJpa;
 import com.mycompany.vgtu.domain.lecture.CategoryService;
@@ -9,6 +10,7 @@ import com.mycompany.vgtu.domain.lecture.VoteJpa;
 import com.mycompany.vgtu.domain.lecture.VoteService;
 import com.mycompany.vgtu.domain.user.UserJpa;
 import com.mycompany.vgtu.domain.user.UserService;
+import com.mycompany.vgtu.utils.MyWicketMessages;
 import java.util.Arrays;
 import java.util.List;
 import org.apache.wicket.AttributeModifier;
@@ -21,7 +23,8 @@ import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.IChoiceRenderer;
-import org.apache.wicket.markup.html.form.RadioChoice;
+import org.apache.wicket.markup.html.form.Radio;
+import org.apache.wicket.markup.html.form.RadioGroup;
 import org.apache.wicket.markup.html.link.InlineFrame;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
@@ -31,8 +34,9 @@ import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.Model;
 
 public class LecturesListPanel extends Panel {
-    
+
     private static final long serialVersionUID = 1L;
+    private MyWicketMessages messages = MyWicketMessages.from(this);
     @Inject
     private LectureService videoLectureService;
     @Inject
@@ -44,12 +48,12 @@ public class LecturesListPanel extends Panel {
     private WebMarkupContainer lecturesContainer;
     private IModel<List<LectureJpa>> listOfLecturesModel;
     private CategoryJpa selectedCategory;
-    
+
     public LecturesListPanel(String wicketId) {
         super(wicketId);
         this.listOfLecturesModel = new LoadableDetachableModel<List<LectureJpa>>() {
             private static final long serialVersionUID = 1L;
-            
+
             @Override
             protected List<LectureJpa> load() {
                 if (selectedCategory == null) {
@@ -60,7 +64,7 @@ public class LecturesListPanel extends Panel {
             }
         };
     }
-    
+
     @Override
     protected void onInitialize() {
         super.onInitialize();
@@ -70,16 +74,16 @@ public class LecturesListPanel extends Panel {
         add(form);
         add(initListViewContainer("lecturesContainer", "lecturesRepeater"));
     }
-    
+
     private Component getLectureCategoryDropDown(String wicketId) {
         IChoiceRenderer<CategoryJpa> renderer = new IChoiceRenderer<CategoryJpa>() {
             private static final long serialVersionUID = 1L;
-            
+
             @Override
             public Object getDisplayValue(CategoryJpa object) {
                 return object.getName();
             }
-            
+
             @Override
             public String getIdValue(CategoryJpa object, int index) {
                 return object.getId().toString();
@@ -87,12 +91,12 @@ public class LecturesListPanel extends Panel {
         };
         Model<CategoryJpa> model = new Model<CategoryJpa>() {
             private static final long serialVersionUID = 1L;
-            
+
             @Override
             public CategoryJpa getObject() {
                 return selectedCategory;
             }
-            
+
             @Override
             public void setObject(CategoryJpa object) {
                 super.setObject(object);
@@ -101,19 +105,19 @@ public class LecturesListPanel extends Panel {
         };
         return new DropDownChoice<CategoryJpa>(wicketId, model, new LoadableDetachableModel<List<CategoryJpa>>() {
             private static final long serialVersionUID = 1L;
-            
+
             @Override
             protected List<CategoryJpa> load() {
                 return videoLectureCategoryService.loaddAllVideoLectureCategories();
             }
         }, renderer);
     }
-    
+
     private Component getAjaxSubmitButtonToLoadLectures(String wicketId) {
-        
-        return new AjaxButton(wicketId) {
+
+        return new AjaxButton(wicketId, messages.txtModel("search")) {
             private static final long serialVersionUID = 1L;
-            
+
             @Override
             protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
                 super.onSubmit(target, form);
@@ -121,12 +125,12 @@ public class LecturesListPanel extends Panel {
             }
         };
     }
-    
+
     private Component initListViewContainer(String wicketId, String repeaterId) {
         lecturesContainer = new WebMarkupContainer(wicketId);
         ListView<LectureJpa> listView = new ListView<LectureJpa>(repeaterId, listOfLecturesModel) {
             private static final long serialVersionUID = 1L;
-            
+
             @Override
             protected void populateItem(ListItem<LectureJpa> item) {
                 LectureJpa lecture = item.getModelObject();
@@ -141,19 +145,19 @@ public class LecturesListPanel extends Panel {
         lecturesContainer.setOutputMarkupId(true);
         return lecturesContainer;
     }
-    
+
     private Component getVideoTitle(String wicketId, String description) {
         return new Label(wicketId, description);
     }
-    
+
     private Component getVideoDescription(String wicketId, String description) {
         return new Label(wicketId, description);
     }
-    
+
     private Component getVideoFrame(final String wicketId, final String url) {
         InlineFrame frame = new InlineFrame(wicketId, WebPage.class) {
             private static final long serialVersionUID = 1L;
-            
+
             @Override
             protected CharSequence getURL() {
                 return url;
@@ -164,48 +168,67 @@ public class LecturesListPanel extends Panel {
         frame.add(new AttributeModifier("width", "420"));
         return frame;
     }
-    
+
     private Component getVideoRating(String wicketId, final Long lectureId) {
         LoadableDetachableModel<Double> model = new LoadableDetachableModel<Double>() {
             private static final long serialVersionUID = 1L;
-            
+
             @Override
             protected Double load() {
                 return voteService.getAverageVoteForLecture(lectureId);
             }
         };
-        return new Label(wicketId, model);
+        StringBuilder builder = new StringBuilder();
+        builder.append(messages.txtModel("rating").getObject());
+        if (model.getObject() == null) {
+            builder.append(messages.txtModel("noVotes").getObject());
+        } else {
+            builder.append(model.getObject().toString());
+        }
+        return new Label(wicketId, builder.toString());
     }
-    
+
     private Component getVideoVoteForm(String formId, final LectureJpa lecture) {
-        final UserJpa currentUser = userService.loadCurrentUser();
+        final Optional<UserJpa> currentUser = userService.loadCurrentUser();
         Form form = new Form(formId) {
             private static final long serialVersionUID = 1L;
-            
+
             @Override
             public boolean isVisible() {
-                if (currentUser != null) {
-                    if (!voteService.hasUserAlreadyVotedForLecture(currentUser.getId(), lecture.getId())) {
+                if (currentUser.isPresent()) {
+                    if (!voteService.hasUserAlreadyVotedForLecture(currentUser.get().getId(), lecture.getId())) {
                         return true;
                     }
                 }
                 return false;
             }
         };
+        //Radio
         Integer[] ratingValues = {1, 2, 3, 4, 5};
-        final RadioChoice<Integer> rating = new RadioChoice<Integer>("ratingRadio", new Model(), Arrays.asList(ratingValues));
-        AjaxButton button = new AjaxButton("ratingSubmit") {
+        IModel<List<? extends Integer>> ratingValuesModel = Model.ofList(Arrays.asList(ratingValues));
+        final IModel<Integer> selected = new Model<Integer>();
+        RadioGroup group = new RadioGroup("radioGroup", selected);
+        group.add(new ListView<Integer>("ratingLabel", ratingValuesModel) {
             private static final long serialVersionUID = 1L;
-            
+
+            @Override
+            protected void populateItem(ListItem<Integer> it) {
+                it.add(new Radio("radio", it.getModel()));
+                it.add(new Label("label", it.getModelObject().toString()));
+            }
+        });
+        AjaxButton button = new AjaxButton("ratingSubmit", messages.txtModel("vote")) {
+            private static final long serialVersionUID = 1L;
+
             @Override
             protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
                 super.onSubmit(target, form);
-                VoteJpa vote = new VoteJpa((Integer) rating.getDefaultModelObject(), currentUser, lecture);
+                VoteJpa vote = new VoteJpa(selected.getObject(), currentUser.get(), lecture);
                 voteService.saveNewVote(vote);
                 target.add(form);
             }
         };
-        form.add(rating);
+        form.add(group);
         form.add(button);
         return form;
     }

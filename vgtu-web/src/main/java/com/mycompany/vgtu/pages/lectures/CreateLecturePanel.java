@@ -5,6 +5,7 @@ import com.mycompany.vgtu.domain.lecture.CategoryJpa;
 import com.mycompany.vgtu.domain.lecture.CategoryService;
 import com.mycompany.vgtu.domain.lecture.LectureJpa;
 import com.mycompany.vgtu.domain.lecture.LectureService;
+import com.mycompany.vgtu.utils.MyWicketMessages;
 import java.util.List;
 import org.apache.wicket.Component;
 import org.apache.wicket.markup.html.form.Button;
@@ -20,7 +21,8 @@ import org.apache.wicket.model.Model;
 
 public class CreateLecturePanel extends Panel {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;    
+    private MyWicketMessages messages = MyWicketMessages.from(this);
     private final LectureJpa videoLectureJpa;
     private final IModel<CategoryJpa> dropDownSelection;
     @Inject
@@ -118,13 +120,14 @@ public class CreateLecturePanel extends Panel {
     }
 
     private Component getSubmitButton(String wicketId) {
-        return new Button(wicketId) {
+        return new Button(wicketId, messages.txtModel("add")) {
             private static final long serialVersionUID = 1L;
 
             @Override
             public void onSubmit() {
                 super.onSubmit();
                 videoLectureService.saveNewVideoLecture(videoLectureJpa);
+                setResponsePage(CreateLecturePage.class);
             }
         };
     }

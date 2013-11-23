@@ -1,5 +1,6 @@
 package com.mycompany.vgtu.domain.security.internal;
 
+import com.google.common.base.Optional;
 import com.google.inject.Inject;
 import com.mycompany.vgtu.domain.security.PasswordService;
 import com.google.inject.Singleton;
@@ -39,12 +40,12 @@ public class MySecurityRealm extends AuthorizingRealm implements CredentialsMatc
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) {
         log.info("authenticating: " + token);
-        UserJpa user = userService.loadByUsername(userNameFrom(token));
-        if (user == null) {
+        Optional<UserJpa> user = userService.loadByUsername(userNameFrom(token));
+        if (!user.isPresent()) {
             throw new UnknownAccountException("Unknown userName [" + userNameFrom(token) + "]");
         }
-        ByteSource salt = ByteSource.Util.bytes(Hex.decode(user.getSalt()));
-        return new SimpleAuthenticationInfo(user, user.getPassword(), salt, getName());
+        ByteSource salt = ByteSource.Util.bytes(Hex.decode(user.get().getSalt()));
+        return new SimpleAuthenticationInfo(user, user.get().getPassword(), salt, getName());
     }
 
     @Override
@@ -59,16 +60,16 @@ public class MySecurityRealm extends AuthorizingRealm implements CredentialsMatc
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
         //TODO: improve permissions. Make annotation with enums.
-        UserJpa user = userFrom(principals);
-        log.info("authorizing: " + user);
-        return ShiroUtils.authorizationInfoFrom(user.getPermissions());
+        Optional<UserJpa> user = userFrom(principals);
+        log.info("authorizing: " + user.get());
+        return ShiroUtils.authorizationInfoFrom(user.get().getPermissions());
     }
 
     private String userNameFrom(AuthenticationToken token) {
         return (String) token.getPrincipal();
     }
 
-    private UserJpa userFrom(PrincipalCollection principals) {
-        return (UserJpa) principals.getPrimaryPrincipal();
+    private Optional<UserJpa> userFrom(PrincipalCollection principals) {
+        return (Optional<UserJpa>) principals.getPrimaryPrincipal();
     }
 }

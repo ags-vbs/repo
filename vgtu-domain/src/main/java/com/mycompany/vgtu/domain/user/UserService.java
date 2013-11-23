@@ -1,14 +1,18 @@
 
 package com.mycompany.vgtu.domain.user;
 
+import com.google.common.base.Optional;
+
 public interface UserService {
 
     UserJpa loadById(long id);
 
     UserJpa saveNewUser(UserJpa user);
     
-    UserJpa loadByUsername(String username);
+    Optional<UserJpa> loadByUsername(String username);
     
-    UserJpa loadCurrentUser();
+    Optional<UserJpa> loadCurrentUser();
+    
+    boolean isUsernameUnique(String username);
     
 }

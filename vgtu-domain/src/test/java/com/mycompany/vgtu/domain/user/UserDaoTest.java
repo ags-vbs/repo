@@ -36,7 +36,7 @@ public class UserDaoTest extends DaoServiceTestBase {
 
     @Test
     public void loads_user_by_username() {
-        loadedUser = userDao.loadByUsername(savedUser.getUsername());
+        loadedUser = userDao.loadByUsername(savedUser.getUsername()).get();
         assertThat(loadedUser, notNullValue());
     }
 }

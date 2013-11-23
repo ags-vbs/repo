@@ -1,9 +1,9 @@
-package com.mycompany.vgtu.domain.user;
+package com.mycompany.vgtu.domain.security;
 
 import java.util.HashSet;
 import java.util.Set;
 
-public class UserPermissions {
+public class Permissions {
 
     public static final String ADMIN = "ADMIN";
     public static final String USER = "USER";

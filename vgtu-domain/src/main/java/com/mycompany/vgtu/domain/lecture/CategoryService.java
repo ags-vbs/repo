@@ -4,9 +4,11 @@ import java.util.List;
 
 public interface CategoryService {
 
-    CategoryJpa loadById(long id);
+    CategoryJpa loadById(Long id);
 
     CategoryJpa saveNewVideoLectureCategory(CategoryJpa videoLecture);
 
     List<CategoryJpa> loaddAllVideoLectureCategories();
+    
+    void deleteById(Long id);
 }

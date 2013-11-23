@@ -1,9 +1,11 @@
 package com.mycompany.vgtu.domain.user.internal;
 
+import com.google.common.base.Optional;
 import com.google.inject.Singleton;
 import com.google.inject.persist.Transactional;
 import com.mycompany.vgtu.domain.user.UserJpa;
 import com.mycompany.vgtu.domain.BasicDaoImpl;
+import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 import org.apache.commons.lang.StringUtils;
 
@@ -16,7 +18,7 @@ public class UserDaoImpl extends BasicDaoImpl<UserJpa, Long> implements UserDao 
     }
 
     @Override
-    public UserJpa loadByUsername(String username) {
+    public Optional<UserJpa> loadByUsername(String username) {
         StringBuilder queryBuilder = new StringBuilder();
         queryBuilder.append("select u from ");
         queryBuilder.append(UserJpa.class.getSimpleName());
@@ -24,6 +26,10 @@ public class UserDaoImpl extends BasicDaoImpl<UserJpa, Long> implements UserDao 
         queryBuilder.append("where u.username = :username");
         TypedQuery<UserJpa> query = em().createQuery(queryBuilder.toString(), UserJpa.class);
         query.setParameter("username", StringUtils.lowerCase(username));
-        return query.getSingleResult();
+        try {
+            return Optional.of(query.getSingleResult());
+        } catch (NoResultException ex) {
+            return Optional.absent();
+        }
     }
 }

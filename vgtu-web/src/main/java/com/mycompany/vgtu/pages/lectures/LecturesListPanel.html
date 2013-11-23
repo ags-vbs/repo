@@ -1,10 +1,19 @@
 <wicket:panel xmlns:wicket="http://wicket.apache.org">
-    <form wicket:id ="form">
-        <select wicket:id="category">
-            <option>Some Person</option>
-        </select>
-        <input type="submit" wicket:id="submitSearch" value="Search" />
+    <script>
+        $('.btn-group').button()
+    </script> 
+    <form wicket:id ="form" role="form">
+        <div class="form-group">
+            <label for="categorySelect" ><wicket:message key="category"/></label>
+            <select wicket:id="category" class="form-control" id="categorySelect">
+                <option>Some Person</option>
+            </select>
+        </div>
+        <input type="submit" wicket:id="submitSearch" class="btn btn-default" />
     </form>
+
+    <div class="spacer"></div>
+
     <span wicket:id="lecturesContainer">
         <span wicket:id="lecturesRepeater">
             <div class="panel panel-primary">
@@ -22,10 +31,19 @@
                             <!-- this section we will add information about the video-->
 
                             <p wicket:id ="lectureDescription"></p>
-                            <div wicket:id ="lectureRating"></div>
+                            <div class="spacer"></div>
+                            <div class="label label-primary" wicket:id ="lectureRating">Primary</div>
+                            <div class="spacer"></div>
                             <form wicket:id ="ratingForm">
-                                <span wicket:id="ratingRadio"></span>
-                                <input type="submit" wicket:id="ratingSubmit" value="Vote" />
+                                <wicket:container wicket:id="radioGroup">
+                                    <div class="btn-group" data-toggle="buttons">
+                                        <label wicket:id="ratingLabel" class="btn btn-primary">
+                                            <input wicket:id="radio" type="radio" name="ticker"/>
+                                            <wicket:container wicket:id="label"/>
+                                        </label>
+                                    </div>
+                                </wicket:container>
+                                <input type="submit" wicket:id="ratingSubmit" class="btn btn-primary" />
                             </form>
                         </div>
                     </div>
@@ -34,3 +52,6 @@
         </span>
     </span>
 </wicket:panel>
+
+
+

@@ -2,7 +2,6 @@ package com.mycompany.vgtu.pages.login;
 
 import com.google.inject.Inject;
 import com.mycompany.vgtu.domain.security.ShiroAuthenticationService;
-import com.mycompany.vgtu.page.layout.MyFeedbackPanel;
 import com.mycompany.vgtu.pages.lectures.LecturesListPage;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.wicket.Component;
@@ -52,7 +51,7 @@ public class LoginPanel extends Panel {
     }
 
     private FeedbackPanel initLoginFeedbackPanel(String wicketId) {
-        loginFeedbackPanel = new MyFeedbackPanel(wicketId);
+        loginFeedbackPanel = new FeedbackPanel(wicketId);
         loginFeedbackPanel.setOutputMarkupId(true);
         return loginFeedbackPanel;
     }

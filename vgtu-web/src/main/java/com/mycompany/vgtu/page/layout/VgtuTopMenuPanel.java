@@ -1,7 +1,11 @@
 package com.mycompany.vgtu.page.layout;
 
+import com.google.common.base.Optional;
 import com.google.inject.Inject;
+import com.mycompany.vgtu.domain.security.Permissions;
 import com.mycompany.vgtu.domain.security.ShiroAuthenticationService;
+import com.mycompany.vgtu.domain.security.ShiroAuthorizationService;
+import com.mycompany.vgtu.domain.user.UserJpa;
 import com.mycompany.vgtu.domain.user.UserService;
 import com.mycompany.vgtu.pages.lectures.CreateLectureCategoryPage;
 import com.mycompany.vgtu.pages.lectures.CreateLecturePage;
@@ -26,13 +30,17 @@ public class VgtuTopMenuPanel extends Panel {
     @Inject
     private ShiroAuthenticationService authenticationService;
     @Inject
+    private ShiroAuthorizationService authorizationService;
+    @Inject
     private UserService userService;
+    private final boolean hasAdminRights;
 
     public VgtuTopMenuPanel(String id, Class<? extends Page> homePage, String applicationName, MenuItemEnum activeMenuItem) {
         super(id);
         this.homePage = homePage;
         this.applicationName = applicationName;
         this.activeMenuItem = activeMenuItem;
+        this.hasAdminRights = authorizationService.isPermittedAllOf(Permissions.ADMIN);
     }
 
     @Override
@@ -46,8 +54,8 @@ public class VgtuTopMenuPanel extends Panel {
                 .withMenuItem(MenuItemEnum.LOGIN, LoginPage.class, !authenticationService.isAuthenticated())
                 .withMenuItem(MenuItemEnum.REGISTER, RegistrationPage.class, !authenticationService.isAuthenticated())
                 .withMenuItem(MenuItemEnum.LECTURES, LecturesListPage.class, true)
-                .withMenuItem(MenuItemEnum.CREATE_LECTURE, CreateLecturePage.class, true)
-                .withMenuItem(MenuItemEnum.CREATE_CATEGORY, CreateLectureCategoryPage.class, true)
+                .withMenuItem(MenuItemEnum.CREATE_LECTURE, CreateLecturePage.class, hasAdminRights)
+                .withMenuItem(MenuItemEnum.CREATE_CATEGORY, CreateLectureCategoryPage.class, hasAdminRights)
                 //                .withMenuItemAsDropdown(MenuItemEnum.PRODUCTS, ProductOnePage.class, "Product One")
                 //                .withMenuItemAsDropdown(MenuItemEnum.PRODUCTS, ProductTwoPage.class, "Product Two")
                 //                .withMenuItemAsDropdown(MenuItemEnum.PRODUCTS, ProductTwoPage.class, "Product Three")
@@ -83,12 +91,13 @@ public class VgtuTopMenuPanel extends Panel {
 
             @Override
             protected String getExtraText() {
-                if (userService.loadCurrentUser() == null) {
-                    return null;
-                } else {
+                Optional<UserJpa> currentUser = userService.loadCurrentUser();
+                if (currentUser.isPresent()) {
                     String text = new StringResourceModel("connectedAs", this, null).getString()
-                            + userService.loadCurrentUser().getUsername().toUpperCase();
+                            + currentUser.get().getUsername().toUpperCase();
                     return text;
+                } else {
+                    return null;
                 }
             }
         };

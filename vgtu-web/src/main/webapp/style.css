@@ -1,5 +1,19 @@
-#content {
-    width: 700px ;
-    margin-left: auto ;
-    margin-right: auto ;
+div .spacer {    
+    height:30px;
+}
+
+li.feedbackPanelERROR {
+    display: block;
+    background-color: #ffaaaa;
+    padding: 10px;
+    border-radius: 5px;
+    margin: 10px;
+}
+
+li.feedbackPanelINFO {
+    display: block;
+    background-color: #aaffaa;
+    padding: 10px;
+    border-radius: 5px;
+    margin: 10px;
 }

@@ -1,10 +1,11 @@
 package com.mycompany.vgtu.domain.user.internal;
 
+import com.google.common.base.Optional;
 import com.mycompany.vgtu.domain.user.UserService;
 import com.google.inject.Inject;
 import com.mycompany.vgtu.domain.security.PasswordService;
 import com.mycompany.vgtu.domain.user.UserJpa;
-import com.mycompany.vgtu.domain.user.UserPermissions;
+import com.mycompany.vgtu.domain.security.Permissions;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.util.ByteSource;
 
@@ -22,7 +23,7 @@ public class UserServiceImpl implements UserService {
         String saltToDb = passwordService.saltoToString(salt);
         user.setPassword(hashedPass);
         user.setSalt(saltToDb);
-        user.setPermissions(UserPermissions.getAllPermissions());
+        user.setPermissions(Permissions.getAllPermissions());
         return userDao.save(user);
     }
 
@@ -32,12 +33,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserJpa loadByUsername(String username) {
+    public Optional<UserJpa> loadByUsername(String username) {
         return userDao.loadByUsername(username);
     }
 
     @Override
-    public UserJpa loadCurrentUser() {
-        return (UserJpa) SecurityUtils.getSubject().getPrincipal();
+    public Optional<UserJpa> loadCurrentUser() {
+        return (Optional<UserJpa>) SecurityUtils.getSubject().getPrincipal();
+    }
+
+    @Override
+    public boolean isUsernameUnique(String username) {
+        return !loadByUsername(username).isPresent();
     }
 }

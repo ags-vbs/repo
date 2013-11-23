@@ -56,7 +56,7 @@ public class BasicDaoImpl<T extends BasicEntity, I extends Number> implements Ba
         builder.append("delete from ");
         builder.append(entityClass.getSimpleName());
         builder.append(" e");
-        builder.append(" where a.id = :id");
+        builder.append(" where e.id = :id");
         return builder.toString();
     }
 

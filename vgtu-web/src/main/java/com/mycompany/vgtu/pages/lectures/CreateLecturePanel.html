@@ -1,11 +1,27 @@
 <wicket:panel xmlns:wicket="http://wicket.apache.org">
-    <form wicket:id="form">
-        <input wicket:id="name" type="text"/>
-        <textarea wicket:id="description"></textarea>
-        <input wicket:id="url" type="text"/>        
-        <select wicket:id="category">
-            <option>Some Person</option>
-        </select>
-        <input type="submit" wicket:id="submitButton" value="OK" />
+    <form wicket:id="form" role="form">
+        <div class="form-group">
+            <label for="lectureName" ><wicket:message key="name"/></label>
+            <input wicket:id="name" type="text" class="form-control" id="lectureName" placeholder="Video pavadinimas"/>
+        </div>
+
+        <div class="form-group">
+            <label for="videoDescription" ><wicket:message key="description"/></label>
+            <textarea wicket:id="description" class="form-control" id="videoDescription" placeholder="Video aprašymas"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="lectureUrl" ><wicket:message key="url"/></label>
+            <input wicket:id="url" type="text" class="form-control" id="lectureUrl" placeholder="Video nuoroda"/>
+        </div>
+
+        <div class="form-group">
+            <label for="categorySelect" ><wicket:message key="category"/></label>
+            <select wicket:id="category" class="form-control" id="categorySelect">
+                <option>Some Person</option>
+            </select>
+        </div>
+
+        <input type="submit" wicket:id="submitButton" class="btn btn-default" />
     </form>
 </wicket:panel>

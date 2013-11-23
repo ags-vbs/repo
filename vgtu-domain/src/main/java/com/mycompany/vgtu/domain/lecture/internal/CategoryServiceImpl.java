@@ -16,12 +16,17 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public CategoryJpa loadById(long id) {
+    public CategoryJpa loadById(Long id) {
         return videoLectureCategoryDao.loadById(id);
     }
 
     @Override
     public List<CategoryJpa> loaddAllVideoLectureCategories() {
         return videoLectureCategoryDao.loadAll();
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        videoLectureCategoryDao.deleteById(id);
     }
 }

@@ -5,6 +5,7 @@ import com.mycompany.vgtu.domain.lecture.CategoryJpa;
 import com.mycompany.vgtu.domain.lecture.CategoryService;
 import com.mycompany.vgtu.page.table.ActionPanel;
 import com.mycompany.vgtu.page.table.MyDataTablePanel;
+import com.mycompany.vgtu.utils.MyWicketMessages;
 import java.util.List;
 import org.apache.wicket.Component;
 import org.apache.wicket.extensions.markup.html.repeater.data.grid.ICellPopulator;
@@ -24,6 +25,7 @@ public class CreateLectureCategoryPanel extends Panel {
 
     private static final long serialVersionUID = 1L;
     private final CategoryJpa videoLectureCategoryJpa;
+    private MyWicketMessages messages = MyWicketMessages.from(this);
     @Inject
     private CategoryService videoLectureCategoryService;
 
@@ -55,13 +57,14 @@ public class CreateLectureCategoryPanel extends Panel {
     }
 
     private Component getSubmitButton(String wicketId) {
-        return new Button(wicketId) {
+        return new Button(wicketId, messages.txtModel("add")){
             private static final long serialVersionUID = 1L;
 
             @Override
             public void onSubmit() {
                 super.onSubmit();
                 videoLectureCategoryService.saveNewVideoLectureCategory(videoLectureCategoryJpa);
+                setResponsePage(CreateLectureCategoryPage.class);
             }
         };
     }
@@ -72,18 +75,18 @@ public class CreateLectureCategoryPanel extends Panel {
 
             @Override
             protected void setupTableColumns(List<IColumn<CategoryJpa, String>> columns) {
-                columns.add(new PropertyColumn<CategoryJpa, String>(new Model<String>("ID"), "id"));
-                columns.add(new PropertyColumn<CategoryJpa, String>(new Model<String>("CATEGORY"), "name", "name"));
+                columns.add(new PropertyColumn<CategoryJpa, String>(messages.txtModel("id"), "id"));
+                columns.add(new PropertyColumn<CategoryJpa, String>(messages.txtModel("category"), "name", "name"));
             }
 
             @Override
             protected void setupActions(Item<ICellPopulator<CategoryJpa>> cellItem, String componentId, IModel<CategoryJpa> model) {
-                cellItem.add(new ActionPanel<CategoryJpa>(componentId, model, "deleteAct") {
+                cellItem.add(new ActionPanel<CategoryJpa>(componentId, model, messages.txtModel("delete")) {
                     private static final long serialVersionUID = 1L;
 
                     @Override
                     protected void onActionClick(CategoryJpa object) {
-// do nothin now;
+                        videoLectureCategoryService.deleteById(object.getId());
                     }
                 });
             }

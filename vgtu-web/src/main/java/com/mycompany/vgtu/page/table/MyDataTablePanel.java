@@ -1,5 +1,6 @@
 package com.mycompany.vgtu.page.table;
 
+import com.mycompany.vgtu.utils.MyWicketMessages;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,17 +13,17 @@ import org.apache.wicket.extensions.markup.html.repeater.util.SortParam;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.model.IModel;
-import org.apache.wicket.model.Model;
 
 public abstract class MyDataTablePanel<T extends Serializable, S extends Object> extends Panel {
 
     private static final long serialVersionUID = 1L;
+    private final MyWicketMessages msg = MyWicketMessages.from(this);
 
     public MyDataTablePanel(String wicketId, S defaultSortColumn, SortOrder defaultSortOrder) {
         super(wicketId);
         List<IColumn<T, S>> columns = new ArrayList<IColumn<T, S>>();
 
-        columns.add(new AbstractColumn<T, S>(new Model<String>("Actions")) {
+        columns.add(new AbstractColumn<T, S>(msg.txtModel("actions")) {
             private static final long serialVersionUID = 1L;
 
             @Override
