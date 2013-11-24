@@ -9,6 +9,10 @@ public interface LectureService {
     LectureJpa saveNewVideoLecture(LectureJpa videoLecture);
 
     List<LectureJpa> loadAllVideoLectures();
-    
+
     List<LectureJpa> loadAllVideoLecturesByCategory(Long categoryId);
+
+    boolean canLectureBeDeletedByCurrentUser(LectureJpa videoLecture);
+
+    void deleteById(Long id);
 }

@@ -7,4 +7,6 @@ public interface VoteService {
     Double getAverageVoteForLecture(Long lectureId);
 
     boolean hasUserAlreadyVotedForLecture(Long userId, Long lectureId);
+
+    void deleteAllVotesByLectureId(Long lectureId);
 }

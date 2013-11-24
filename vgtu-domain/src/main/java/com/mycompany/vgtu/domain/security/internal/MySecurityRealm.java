@@ -6,6 +6,7 @@ import com.mycompany.vgtu.domain.security.PasswordService;
 import com.google.inject.Singleton;
 import com.mycompany.vgtu.domain.user.UserJpa;
 import com.mycompany.vgtu.domain.user.UserService;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.SimpleAuthenticationInfo;
@@ -70,6 +71,13 @@ public class MySecurityRealm extends AuthorizingRealm implements CredentialsMatc
     }
 
     private Optional<UserJpa> userFrom(PrincipalCollection principals) {
-        return (Optional<UserJpa>) principals.getPrimaryPrincipal();
+
+        //TODO Maybe good maybe not. Need tests if it comes null from principals, but probably yes.
+        Optional<UserJpa> user = (Optional<UserJpa>) principals.getPrimaryPrincipal();
+        if (user == null) {
+            return Optional.absent();
+        } else {
+            return user;
+        }
     }
 }

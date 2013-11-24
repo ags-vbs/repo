@@ -39,4 +39,16 @@ public class VoteDaoImpl extends BasicDaoImpl<VoteJpa, Long> implements VoteDao 
         query.setParameter("voterId", userId);
         return query.getSingleResult().intValue() > 0 ? true : false;
     }
+
+    @Override
+    public void deleteAllVotesByLectureId(Long lectureId) {
+        StringBuilder queryBuilder = new StringBuilder();
+        queryBuilder.append("delete from ");
+        queryBuilder.append(VoteJpa.class.getSimpleName());
+        queryBuilder.append(" v ");
+        queryBuilder.append("where v.lecture.id = :lectureId ");
+        TypedQuery<Void> query = em().createQuery(queryBuilder.toString(), Void.class);
+        query.setParameter("lectureId", lectureId);
+        query.executeUpdate();
+    }
 }

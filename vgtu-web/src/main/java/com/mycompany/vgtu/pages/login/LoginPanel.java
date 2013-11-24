@@ -3,6 +3,7 @@ package com.mycompany.vgtu.pages.login;
 import com.google.inject.Inject;
 import com.mycompany.vgtu.domain.security.ShiroAuthenticationService;
 import com.mycompany.vgtu.pages.lectures.LecturesListPage;
+import com.mycompany.vgtu.utils.MyWicketMessages;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.wicket.Component;
 import org.apache.wicket.ajax.AjaxRequestTarget;
@@ -17,6 +18,7 @@ import org.apache.wicket.model.Model;
 public class LoginPanel extends Panel {
 
     private static final long serialVersionUID = 1L;
+    private MyWicketMessages messages = MyWicketMessages.from(this);
     private TextField<String> usernameField;
     private PasswordTextField passwordField;
     private FeedbackPanel loginFeedbackPanel;
@@ -35,18 +37,18 @@ public class LoginPanel extends Panel {
         form.add(initLoginPasswordField("password"));
         form.add(initLoginButton("submitButton"));
         form.add(initLoginFeedbackPanel("loginFeedback"));
+        form.add(new LoginPanelValidator(usernameField, passwordField));
         add(form);
     }
 
     private Component initLoginUserNameField(String wicketId) {
         usernameField = new TextField<String>(wicketId, new Model<String>());
-        usernameField.setRequired(true);
         return usernameField;
     }
 
     private Component initLoginPasswordField(String wicketId) {
         passwordField = new PasswordTextField(wicketId, new Model<String>());
-        passwordField.setRequired(true);
+        passwordField.setRequired(false);
         return passwordField;
     }
 
@@ -85,7 +87,7 @@ public class LoginPanel extends Panel {
         try {
             authenticationService.login(username, password);
         } catch (AuthenticationException ex) {
-            loginFeedbackPanel.error("Neteisingas vartotojo vardas arba slap. Test message");
+            loginFeedbackPanel.error(messages.txtModel("badCredentials"));
         }
         //FIXME: do not do validation like this... Maybe... Somewhhere else do it or somehow different.
         if (!loginFeedbackPanel.anyErrorMessage()) {

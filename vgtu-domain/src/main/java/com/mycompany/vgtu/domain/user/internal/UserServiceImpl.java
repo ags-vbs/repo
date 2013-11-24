@@ -23,7 +23,7 @@ public class UserServiceImpl implements UserService {
         String saltToDb = passwordService.saltoToString(salt);
         user.setPassword(hashedPass);
         user.setSalt(saltToDb);
-        user.setPermissions(Permissions.getAllPermissions());
+        user.setPermissions(Permissions.getSimpleUserPermissions());
         return userDao.save(user);
     }
 
@@ -39,7 +39,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Optional<UserJpa> loadCurrentUser() {
-        return (Optional<UserJpa>) SecurityUtils.getSubject().getPrincipal();
+        //TODO Maybe good maybe not. Need tests if it comes null from security utils, but probably yes.
+        Optional<UserJpa> user = (Optional<UserJpa>) SecurityUtils.getSubject().getPrincipal();
+        if (user == null) {
+            return Optional.absent();
+        } else {
+            return user;
+        }
     }
 
     @Override

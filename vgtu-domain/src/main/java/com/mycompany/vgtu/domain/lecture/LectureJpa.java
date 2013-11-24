@@ -3,6 +3,7 @@ package com.mycompany.vgtu.domain.lecture;
 import com.mycompany.vgtu.domain.BasicEntity;
 import com.mycompany.vgtu.domain.user.UserJpa;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -16,7 +17,8 @@ public class LectureJpa extends BasicEntity {
     private String name;
     @ManyToOne
     private CategoryJpa category;
-    @ManyToOne
+    @ManyToOne    
+    @JoinColumn(nullable = false)
     private UserJpa uploader;
 
     public LectureJpa() {

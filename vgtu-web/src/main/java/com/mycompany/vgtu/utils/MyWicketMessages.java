@@ -1,6 +1,5 @@
 package com.mycompany.vgtu.utils;
 
-import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.util.Properties;
@@ -10,7 +9,7 @@ import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.StringResourceModel;
 
 public class MyWicketMessages implements Serializable {
-//FIX ME. This class should be checked and code improved. Nicer exceptions and so on.
+//FIX ME. This class should be checked and code improved. Nicer exceptions and so on. When no property found exception should be clear.
 
     private static final long serialVersionUID = 1L;
     private Component relativeComponentToPropertiesFile;

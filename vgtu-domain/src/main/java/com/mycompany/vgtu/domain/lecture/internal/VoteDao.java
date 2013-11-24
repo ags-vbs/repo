@@ -8,4 +8,6 @@ public interface VoteDao extends BasicDao<VoteJpa, Long> {
     Double getAverageVoteForLecture(Long lectureId);
 
     boolean hasUserAlreadyVotedForLecture(Long userId, Long lectureId);
+    
+    void deleteAllVotesByLectureId(Long lectureId);
 }

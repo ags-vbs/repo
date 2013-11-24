@@ -23,4 +23,9 @@ public class VoteServiceImpl implements VoteService {
     public boolean hasUserAlreadyVotedForLecture(Long userId, Long lectureId) {
         return voteDao.hasUserAlreadyVotedForLecture(userId, lectureId);
     }
+
+    @Override
+    public void deleteAllVotesByLectureId(Long lectureId) {
+        voteDao.deleteAllVotesByLectureId(lectureId);
+    }
 }

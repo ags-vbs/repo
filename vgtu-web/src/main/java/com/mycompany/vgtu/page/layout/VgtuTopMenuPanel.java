@@ -54,7 +54,7 @@ public class VgtuTopMenuPanel extends Panel {
                 .withMenuItem(MenuItemEnum.LOGIN, LoginPage.class, !authenticationService.isAuthenticated())
                 .withMenuItem(MenuItemEnum.REGISTER, RegistrationPage.class, !authenticationService.isAuthenticated())
                 .withMenuItem(MenuItemEnum.LECTURES, LecturesListPage.class, true)
-                .withMenuItem(MenuItemEnum.CREATE_LECTURE, CreateLecturePage.class, hasAdminRights)
+                .withMenuItem(MenuItemEnum.CREATE_LECTURE, CreateLecturePage.class, authenticationService.isAuthenticated())
                 .withMenuItem(MenuItemEnum.CREATE_CATEGORY, CreateLectureCategoryPage.class, hasAdminRights)
                 //                .withMenuItemAsDropdown(MenuItemEnum.PRODUCTS, ProductOnePage.class, "Product One")
                 //                .withMenuItemAsDropdown(MenuItemEnum.PRODUCTS, ProductTwoPage.class, "Product Two")

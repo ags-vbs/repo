@@ -16,6 +16,7 @@ import java.util.List;
 import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.Component;
 import org.apache.wicket.ajax.AjaxRequestTarget;
+import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.ajax.markup.html.form.AjaxButton;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.WebPage;
@@ -133,12 +134,14 @@ public class LecturesListPanel extends Panel {
 
             @Override
             protected void populateItem(ListItem<LectureJpa> item) {
+                item.setOutputMarkupId(true);
                 LectureJpa lecture = item.getModelObject();
                 item.add(getVideoTitle("lectureTitle", lecture.getName()));
                 item.add(getVideoDescription("lectureDescription", lecture.getDescription()));
                 item.add(getVideoFrame("lectureVideoFrame", lecture.getUrl()));
                 item.add(getVideoRating("lectureRating", lecture.getId()));
-                item.add(getVideoVoteForm("ratingForm", lecture));
+                item.add(getVideoVoteForm("ratingForm", lecture, item));
+                item.add(getVideoDeleteLink("deleteLink", lecture));
             }
         };
         lecturesContainer.add(listView);
@@ -170,25 +173,26 @@ public class LecturesListPanel extends Panel {
     }
 
     private Component getVideoRating(String wicketId, final Long lectureId) {
-        LoadableDetachableModel<Double> model = new LoadableDetachableModel<Double>() {
+        LoadableDetachableModel<String> model = new LoadableDetachableModel<String>() {
             private static final long serialVersionUID = 1L;
 
             @Override
-            protected Double load() {
-                return voteService.getAverageVoteForLecture(lectureId);
+            protected String load() {
+                Double voteValue = voteService.getAverageVoteForLecture(lectureId);
+                StringBuilder builder = new StringBuilder();
+                builder.append(messages.txtModel("rating").getObject());
+                if (voteValue == null) {
+                    builder.append(messages.txtModel("noVotes").getObject());
+                } else {
+                    builder.append(voteValue);
+                }
+                return builder.toString();
             }
         };
-        StringBuilder builder = new StringBuilder();
-        builder.append(messages.txtModel("rating").getObject());
-        if (model.getObject() == null) {
-            builder.append(messages.txtModel("noVotes").getObject());
-        } else {
-            builder.append(model.getObject().toString());
-        }
-        return new Label(wicketId, builder.toString());
+        return new Label(wicketId, model);
     }
 
-    private Component getVideoVoteForm(String formId, final LectureJpa lecture) {
+    private Component getVideoVoteForm(String formId, final LectureJpa lecture, final ListItem<LectureJpa> item) {
         final Optional<UserJpa> currentUser = userService.loadCurrentUser();
         Form form = new Form(formId) {
             private static final long serialVersionUID = 1L;
@@ -225,11 +229,30 @@ public class LecturesListPanel extends Panel {
                 super.onSubmit(target, form);
                 VoteJpa vote = new VoteJpa(selected.getObject(), currentUser.get(), lecture);
                 voteService.saveNewVote(vote);
-                target.add(form);
+                target.add(item);
             }
         };
         form.add(group);
         form.add(button);
         return form;
+    }
+
+    private Component getVideoDeleteLink(String wicketId, final LectureJpa lecture) {
+        AjaxLink deleteLink = new AjaxLink(wicketId) {
+            private static final long serialVersionUID = 1L;
+
+            @Override
+            public void onClick(AjaxRequestTarget target) {
+                videoLectureService.deleteById(lecture.getId());
+                target.add(lecturesContainer);
+            }
+
+            @Override
+            public boolean isVisible() {
+                return videoLectureService.canLectureBeDeletedByCurrentUser(lecture);
+            }
+        };
+        deleteLink.setBody(messages.txtModel("deleteLink"));
+        return deleteLink;
     }
 }
