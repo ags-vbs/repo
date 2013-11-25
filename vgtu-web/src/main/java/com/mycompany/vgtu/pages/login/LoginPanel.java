@@ -22,6 +22,7 @@ public class LoginPanel extends Panel {
     private TextField<String> usernameField;
     private PasswordTextField passwordField;
     private FeedbackPanel loginFeedbackPanel;
+    private Form form;
     @Inject
     private ShiroAuthenticationService authenticationService;
 
@@ -32,7 +33,7 @@ public class LoginPanel extends Panel {
     @Override
     protected void onInitialize() {
         super.onInitialize();
-        Form form = new Form("loginForm");
+        form = new Form("loginForm");
         form.add(initLoginUserNameField("username"));
         form.add(initLoginPasswordField("password"));
         form.add(initLoginButton("submitButton"));
@@ -71,6 +72,7 @@ public class LoginPanel extends Panel {
             @Override
             protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
                 login(getUsername(), getPassword());
+                target.add(loginFeedbackPanel);
             }
         };
     }
@@ -87,10 +89,10 @@ public class LoginPanel extends Panel {
         try {
             authenticationService.login(username, password);
         } catch (AuthenticationException ex) {
-            loginFeedbackPanel.error(messages.txtModel("badCredentials"));
+            form.error(messages.txtModel("badCredentials").getObject());
         }
         //FIXME: do not do validation like this... Maybe... Somewhhere else do it or somehow different.
-        if (!loginFeedbackPanel.anyErrorMessage()) {
+        if (!form.hasError()) {
             continueToOriginalDestination();
             setResponsePage(LecturesListPage.class);
         }
