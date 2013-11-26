@@ -4,7 +4,6 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Scopes;
 import com.google.inject.Singleton;
-import com.google.inject.persist.PersistFilter;
 import com.google.inject.persist.jpa.JpaPersistModule;
 import com.google.inject.servlet.ServletModule;
 import com.mycompany.vgtu.utils.MyWicketApplication;
@@ -19,7 +18,7 @@ public class MyServletModule extends ServletModule {
     @Override
     protected void configureServlets() {
         install(new JpaPersistModule("vgtuJpaUnit"));
-        filter("/*").through(PersistFilter.class);
+//        filter("/*").through(PersistFilter.class);
         filter("/*").through(WicketFilter.class, createWicketFilterInitParams());
         bind(WebApplication.class).to(MyWicketApplication.class);
         bind(WicketFilter.class).to(CustomWicketFilter.class).in(Scopes.SINGLETON);
