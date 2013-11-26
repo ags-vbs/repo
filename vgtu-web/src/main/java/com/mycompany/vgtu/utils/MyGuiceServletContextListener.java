@@ -5,6 +5,7 @@ import com.google.inject.Injector;
 import com.google.inject.persist.PersistService;
 import com.google.inject.servlet.GuiceServletContextListener;
 import com.mycompany.vgtu.domain.modules.DomainModule;
+import com.mycompany.vgtu.domain.security.Permissions;
 import com.mycompany.vgtu.domain.user.UserJpa;
 import com.mycompany.vgtu.domain.user.UserService;
 import com.mycompany.vgtu.utils.modules.MyShiroWebModule;
@@ -58,6 +59,7 @@ public class MyGuiceServletContextListener extends GuiceServletContextListener {
             UserJpa userJpa = new UserJpa();
             userJpa.setUsername(name);
             userJpa.setPassword(pasw);
+            userJpa.setPermissions(Permissions.getAllPermissions());
             userService.saveNewUser(userJpa);
         } else {
             //user default already exist
