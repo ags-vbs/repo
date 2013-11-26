@@ -23,7 +23,9 @@ public class UserServiceImpl implements UserService {
         String saltToDb = passwordService.saltoToString(salt);
         user.setPassword(hashedPass);
         user.setSalt(saltToDb);
-        user.setPermissions(Permissions.getSimpleUserPermissions());
+        if (user.getPermissions() == null || user.getPermissions().isEmpty()) {
+            user.setPermissions(Permissions.getSimpleUserPermissions());
+        }
         return userDao.save(user);
     }
 
