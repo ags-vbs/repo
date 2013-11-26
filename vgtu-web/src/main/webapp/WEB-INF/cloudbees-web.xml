@@ -3,6 +3,6 @@
     <resource name="jdbc/vgtu" auth="Container" type="javax.sql.DataSource">
         <param name="username" value="augustinas" />
         <param name="password" value="justas" />
-        <param name="url" value="jdbc:mysql://ec2-50-19-213-178.compute-1.amazonaws.com:3306/vgtu" />
+        <param name="url" value="jdbc:mysql://ec2-176-34-253-124.eu-west-1.compute.amazonaws.com:3306/vgtu" />
     </resource>
 </cloudbees-web-app>
