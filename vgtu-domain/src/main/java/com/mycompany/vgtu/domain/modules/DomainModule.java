@@ -23,7 +23,6 @@ import com.mycompany.vgtu.domain.security.internal.MySecurityRealm;
 import com.mycompany.vgtu.domain.security.internal.PasswordServiceImpl;
 import com.mycompany.vgtu.domain.security.internal.ShiroAuthenticationServiceImpl;
 import com.mycompany.vgtu.domain.security.internal.ShiroAuthorizationServiceImpl;
-import com.mycompany.vgtu.domain.security.internal.ShiroSecurityInitializerImpl;
 import com.mycompany.vgtu.domain.user.UserService;
 import com.mycompany.vgtu.domain.user.internal.UserServiceImpl;
 import org.apache.shiro.realm.Realm;
@@ -40,7 +39,6 @@ public class DomainModule extends AbstractModule {
 
     private void bindSecurity() {
         bind(Realm.class).to(MySecurityRealm.class);
-        bind(ShiroSecurityInitializerImpl.class).asEagerSingleton();
         bind(ShiroAuthenticationService.class).to(ShiroAuthenticationServiceImpl.class);
         bind(ShiroAuthorizationService.class).to(ShiroAuthorizationServiceImpl.class);
         bind(PasswordService.class).to(PasswordServiceImpl.class);
